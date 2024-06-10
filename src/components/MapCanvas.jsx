@@ -29,6 +29,7 @@ export default function MapCanvas(props) {
 
     //local variables
     let playerPosition = null
+    let frameCount = 0
 
 
     //local functions
@@ -39,7 +40,7 @@ export default function MapCanvas(props) {
         context.clearRect(0, 0, context.canvas.width, context.canvas.height)
         context.drawImage(backgroundImg, 0, 0, context.canvas.width, context.canvas.height)
         if (playerPosition !== null) {
-            drawPlayer(context, playerImg, playerPosition.facing, 0, playerPosition.x, playerPosition.y)
+            drawPlayer(context, playerImg, playerPosition.facing, playerPosition.animationStep, playerPosition.x, playerPosition.y)
         }
 
     }
@@ -58,7 +59,15 @@ export default function MapCanvas(props) {
     }
 
     window.onkeydown = (e) => {
-
+        const arrows = ["ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown"]
+        if (arrows.includes(e.key)) {
+            if (frameCount % 3 === 0) {
+                playerPosition.animationStep++
+            }
+            if (e.key === "ArrowRight") {
+                playerPosition.facing = 2
+            }
+        }
     }
 
     //use effects
@@ -78,6 +87,7 @@ export default function MapCanvas(props) {
         let animationFrameId
 
         const render = () => {
+            frameCount++
             draw(context)
             animationFrameId = window.requestAnimationFrame(render)
         }
@@ -93,7 +103,8 @@ export default function MapCanvas(props) {
         playerPosition = {
             x: playerState.x * canvasPixel.x,
             y: playerState.y * canvasPixel.y,
-            facing: playerState.facing
+            facing: playerState.facing,
+            animationStep: 0
         }
     }, [canvasPixel, playerState])
     // useEffect(() => {
