@@ -1,10 +1,11 @@
 import './App.css'
+import Location from './pages/Location'
 
 function App() {
 
   return (
     <>
-
+    <Location/>
     </>
   )
 }
