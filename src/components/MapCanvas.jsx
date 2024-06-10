@@ -88,7 +88,7 @@ export default function MapCanvas(props) {
                 playerPosition.facing = 3
                 playerPosition.y -= playerPosition.speed * canvasPixel.y
             }
-            console.log(getColour(playerPosition.x, playerPosition.y, wallCanvas2dContext))
+            // console.log(getColour(playerPosition.x, playerPosition.y, wallCanvas2dContext))
 
         }
     }
@@ -116,13 +116,13 @@ export default function MapCanvas(props) {
         // wallCanvas2dContext.drawImage(wallImg, 0, 0, wallCanvas2dContext.canvas.width, wallCanvas2dContext.canvas.height)
         // console.log(wallCanvas2dContext)
 
-        // if (!canvasPixel.isSet) {
-        //     setCanvasPixel({
-        //         x: context.canvas.width / backgroundImg.width,
-        //         y: context.canvas.height / backgroundImg.height,
-        //         isSet: true
-        //     })
-        // }
+        if (!canvasPixel.isSet) {
+            setCanvasPixel({
+                x: context.canvas.width / backgroundImg.width,
+                y: context.canvas.height / backgroundImg.height,
+                isSet: true
+            })
+        }
 
         let animationFrameId
 
@@ -141,7 +141,6 @@ export default function MapCanvas(props) {
     }, [draw])
 
     useEffect(() => {
-        console.log("ezzel mi a fasz van?")
         playerPosition = {
             x: playerState.x * canvasPixel.x,
             y: playerState.y * canvasPixel.y,
@@ -154,6 +153,6 @@ export default function MapCanvas(props) {
 
 
     return (
-        <canvas key="kacsa" ref={canvasRef} className='canvas-main'></canvas>
+        <canvas ref={canvasRef} className='canvas-main'></canvas>
     )
 }
