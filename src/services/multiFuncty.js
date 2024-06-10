@@ -1,0 +1,1 @@
+/* for all time multi use functions */
