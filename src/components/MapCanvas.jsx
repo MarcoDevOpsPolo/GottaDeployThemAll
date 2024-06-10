@@ -11,8 +11,8 @@ export default function MapCanvas(props) {
 
     // states
     const [playerState, setPlayerState] = useState({
-        x: 530,
-        y: 450,
+        x: 537,
+        y: 453,
         speed: 4,
         facing: 0
     })
@@ -25,6 +25,7 @@ export default function MapCanvas(props) {
     // imgs
     const backgroundImg = new Image()
     backgroundImg.src = backgroundSrc
+    // backgroundImg.src = backgroundWallsSrc
 
     const playerImg = new Image()
     playerImg.src = playerSrc
@@ -60,7 +61,9 @@ export default function MapCanvas(props) {
      * @param {Number} posy 
     */
     function drawPlayer(context, player, facing, animationStep, posx, posy) {
-        context.drawImage(player, (animationStep % 4) * player.width / 4, facing * player.height / 4, player.width / 4, player.height / 4, posx, posy, player.width / 4, player.height / 4)
+        const scaledPlayerWidth = (player.width / 4) * canvasPixel.x
+        const scaledPlayerHeight = (player.height / 4) * 1.4 * canvasPixel.y
+        context.drawImage(player, (animationStep % 4) * player.width / 4, facing * player.height / 4, player.width / 4, player.height / 4, posx - (scaledPlayerWidth / 2), posy - (scaledPlayerHeight / 2), scaledPlayerWidth, scaledPlayerHeight)
     }
 
     window.onkeydown = (e) => {
@@ -85,19 +88,14 @@ export default function MapCanvas(props) {
                 playerPosition.facing = 3
                 playerPosition.y -= playerPosition.speed * canvasPixel.y
             }
+            console.log(getColour(playerPosition.x, playerPosition.y, wallCanvas2dContext))
 
         }
     }
 
-    function checkColour(event, canvas) {
-        const bounding = canvas.getBoundingClientRect();
-        const x = event.clientX - bounding.left;
-        const y = event.clientY - bounding.top;
-        const pixel = ctx.getImageData(x, y, 1, 1);
-        const data = pixel.data;
-        console.log(data[0], data[1], data[2])
+    function getColour(posx, posy, context) {
+        return context.getImageData(Math.round(posx), Math.round(posy), 1, 1).data
 
-        return rgbColor;
     }
 
     // use effects
@@ -107,24 +105,29 @@ export default function MapCanvas(props) {
         context.canvas.width = window.innerWidth * 0.987
         context.canvas.height = window.innerHeight * 0.98
 
-        // ezt lehet nem itt kell beállítani? még nem tudom pontosan
-        const wallCanvas = new OffscreenCanvas(context.canvas.width, context.canvas.height)
-        wallCanvas2dContext = wallCanvas.getContext('2d')
-        wallCanvas2dContext.drawImage(wallImg, wallCanvas2dContext.canvas.width, wallCanvas2dContext.canvas.height)
-
         console.log("ugye nem crash? 😇")
 
-        if (!canvasPixel.isSet) {
-            setCanvasPixel({
-                x: context.canvas.width / backgroundImg.width,
-                y: context.canvas.height / backgroundImg.height,
-                isSet: true
-            })
-        }
+        // ezt lehet nem itt kell beállítani? még nem tudom pontosan
+        // console.log("na és ez?")
+        // const context = canvasRef.current.getContext("2d")
+        // const wallCanvas = new OffscreenCanvas(context.canvas.width, context.canvas.height)
+        // wallCanvas2dContext = wallCanvas.getContext('2d')
+        // wallCanvas2dContext.clearRect(0, 0, wallCanvas2dContext.canvas.width, wallCanvas2dContext.canvas.height)
+        // wallCanvas2dContext.drawImage(wallImg, 0, 0, wallCanvas2dContext.canvas.width, wallCanvas2dContext.canvas.height)
+        // console.log(wallCanvas2dContext)
+
+        // if (!canvasPixel.isSet) {
+        //     setCanvasPixel({
+        //         x: context.canvas.width / backgroundImg.width,
+        //         y: context.canvas.height / backgroundImg.height,
+        //         isSet: true
+        //     })
+        // }
 
         let animationFrameId
 
         const render = () => {
+            // console.log("render!")
             frameCount++
             draw(context)
             animationFrameId = window.requestAnimationFrame(render)
@@ -138,6 +141,7 @@ export default function MapCanvas(props) {
     }, [draw])
 
     useEffect(() => {
+        console.log("ezzel mi a fasz van?")
         playerPosition = {
             x: playerState.x * canvasPixel.x,
             y: playerState.y * canvasPixel.y,
@@ -145,11 +149,11 @@ export default function MapCanvas(props) {
             facing: playerState.facing,
             animationStep: 0
         }
+        console.log(playerPosition)
     }, [canvasPixel, playerState])
 
 
-
     return (
-        <canvas ref={canvasRef} className='canvas-main'></canvas>
+        <canvas key="kacsa" ref={canvasRef} className='canvas-main'></canvas>
     )
 }
