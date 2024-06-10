@@ -12,6 +12,7 @@ export default function MapCanvas(props) {
     const [playerState, setPlayerState] = useState({
         x: 530,
         y: 450,
+        speed: 4,
         facing: 0
     })
     const [canvasPixel, setCanvasPixel] = useState({
@@ -64,9 +65,23 @@ export default function MapCanvas(props) {
             if (frameCount % 3 === 0) {
                 playerPosition.animationStep++
             }
+            if (e.key === "ArrowDown") {
+                playerPosition.facing = 0
+                playerPosition.y += playerPosition.speed * canvasPixel.y
+            }
+            if (e.key === "ArrowLeft") {
+                playerPosition.facing = 1
+                playerPosition.x -= playerPosition.speed * canvasPixel.x
+            }
             if (e.key === "ArrowRight") {
                 playerPosition.facing = 2
+                playerPosition.x += playerPosition.speed * canvasPixel.x
             }
+            if (e.key === "ArrowUp") {
+                playerPosition.facing = 3
+                playerPosition.y -= playerPosition.speed * canvasPixel.y
+            }
+
         }
     }
 
@@ -103,6 +118,7 @@ export default function MapCanvas(props) {
         playerPosition = {
             x: playerState.x * canvasPixel.x,
             y: playerState.y * canvasPixel.y,
+            speed: playerState.speed,
             facing: playerState.facing,
             animationStep: 0
         }
