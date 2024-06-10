@@ -1,14 +1,15 @@
 /* a canvas to travel between locations on the map */
 import React, { useRef, useEffect, useState } from 'react'
 import backgroundSrc from './../assets/maps/map3.png'
+import backgroundWallsSrc from './../assets/maps/map3_walls.png'
 import playerSrc from './../assets/player/ash2.webp'
 
 export default function MapCanvas(props) {
 
-    //refs
+    // refs
     const canvasRef = useRef(null)
 
-    //states
+    // states
     const [playerState, setPlayerState] = useState({
         x: 530,
         y: 450,
@@ -21,19 +22,23 @@ export default function MapCanvas(props) {
         isSet: false
     })
 
-    //imgs
+    // imgs
     const backgroundImg = new Image()
     backgroundImg.src = backgroundSrc
 
     const playerImg = new Image()
     playerImg.src = playerSrc
 
-    //local variables
+    const wallImg = new Image()
+    wallImg.src = backgroundWallsSrc
+
+    // local variables
     let playerPosition = null
     let frameCount = 0
+    let wallCanvas2dContext = null
 
 
-    //local functions
+    // local functions
     /**
      * @param {CanvasRenderingContext2D} context 
      */
@@ -47,7 +52,6 @@ export default function MapCanvas(props) {
     }
 
     /**
-     * 
      * @param {CanvasRenderingContext2D} context 
      * @param {ImageData} player 
      * @param {Number} facing 0-down, 1-left, 2-right, 3-top
@@ -85,12 +89,31 @@ export default function MapCanvas(props) {
         }
     }
 
-    //use effects
+    function checkColour(event, canvas) {
+        const bounding = canvas.getBoundingClientRect();
+        const x = event.clientX - bounding.left;
+        const y = event.clientY - bounding.top;
+        const pixel = ctx.getImageData(x, y, 1, 1);
+        const data = pixel.data;
+        console.log(data[0], data[1], data[2])
+
+        return rgbColor;
+    }
+
+    // use effects
     useEffect(() => {
         const canvas = canvasRef.current
         const context = canvas.getContext('2d')
         context.canvas.width = window.innerWidth * 0.987
         context.canvas.height = window.innerHeight * 0.98
+
+        // ezt lehet nem itt kell beállítani? még nem tudom pontosan
+        const wallCanvas = new OffscreenCanvas(context.canvas.width, context.canvas.height)
+        wallCanvas2dContext = wallCanvas.getContext('2d')
+        wallCanvas2dContext.drawImage(wallImg, wallCanvas2dContext.canvas.width, wallCanvas2dContext.canvas.height)
+
+        console.log("ugye nem crash? 😇")
+
         if (!canvasPixel.isSet) {
             setCanvasPixel({
                 x: context.canvas.width / backgroundImg.width,
@@ -123,9 +146,8 @@ export default function MapCanvas(props) {
             animationStep: 0
         }
     }, [canvasPixel, playerState])
-    // useEffect(() => {
-    //     console.log(canvasPixel)
-    // }, [canvasPixel])
+
+
 
     return (
         <canvas ref={canvasRef} className='canvas-main'></canvas>
