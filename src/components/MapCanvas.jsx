@@ -1,6 +1,7 @@
 /* a canvas to travel between locations on the map */
 import React, { useRef, useEffect, useState } from 'react'
-import background3Src from './../assets/maps/map3.png'
+import backgroundSrc from './../assets/maps/map3.png'
+import playerSrc from './../assets/player/ash2.webp'
 
 export default function MapCanvas(props) {
 
@@ -8,7 +9,11 @@ export default function MapCanvas(props) {
     const canvasRef = useRef(null)
 
     //states
-    const [playerState, setPlayerState] = useState({})
+    const [playerState, setPlayerState] = useState({
+        x: 530,
+        y: 450,
+        facing: 0
+    })
     const [canvasPixel, setCanvasPixel] = useState({
         x: 1,
         y: 1,
@@ -17,9 +22,13 @@ export default function MapCanvas(props) {
 
     //imgs
     const backgroundImg = new Image()
-    backgroundImg.src = background3Src
+    backgroundImg.src = backgroundSrc
+
+    const playerImg = new Image()
+    playerImg.src = playerSrc
 
     //local variables
+    let playerPosition = null
 
 
     //local functions
@@ -29,6 +38,23 @@ export default function MapCanvas(props) {
     const draw = (context) => {
         context.clearRect(0, 0, context.canvas.width, context.canvas.height)
         context.drawImage(backgroundImg, 0, 0, context.canvas.width, context.canvas.height)
+        if (playerPosition !== null) {
+            drawPlayer(context, playerImg, playerPosition.facing, 0, playerPosition.x, playerPosition.y)
+        }
+
+    }
+
+    /**
+     * 
+     * @param {CanvasRenderingContext2D} context 
+     * @param {ImageData} player 
+     * @param {Number} facing 0-down, 1-left, 2-right, 3-top
+     * @param {Number} animationStep Must be whole number, mod 4 will be taken as there are 4 animation steps
+     * @param {Number} posx 
+     * @param {Number} posy 
+    */
+    function drawPlayer(context, player, facing, animationStep, posx, posy) {
+        context.drawImage(player, (animationStep % 4) * player.width / 4, facing * player.height / 4, player.width / 4, player.height / 4, posx, posy, player.width / 4, player.height / 4)
     }
 
     window.onkeydown = (e) => {
@@ -64,8 +90,15 @@ export default function MapCanvas(props) {
     }, [draw])
 
     useEffect(() => {
-        console.log(canvasPixel)
-    }, [canvasPixel])
+        playerPosition = {
+            x: playerState.x * canvasPixel.x,
+            y: playerState.y * canvasPixel.y,
+            facing: playerState.facing
+        }
+    }, [canvasPixel, playerState])
+    // useEffect(() => {
+    //     console.log(canvasPixel)
+    // }, [canvasPixel])
 
     return (
         <canvas ref={canvasRef} className='canvas-main'></canvas>
