@@ -1,0 +1,1 @@
+/* encounter at location with pokemon */
