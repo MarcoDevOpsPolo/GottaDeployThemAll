@@ -143,9 +143,6 @@ export default function MapCanvas(props) {
 
         console.log("ugye nem crash? 😇")
 
-        // ezt lehet nem itt kell beállítani? még nem tudom pontosan
-        // console.log("na és ez?")
-        // const context = canvasRef.current.getContext("2d")
         const wallCanvas = wallCanvasRef.current
         wallCanvas2dContext = wallCanvas.getContext('2d')
         wallCanvas2dContext.canvas.width = window.innerWidth * 0.987
@@ -164,7 +161,6 @@ export default function MapCanvas(props) {
         let animationFrameId
 
         const render = () => {
-            // console.log("render!")
             frameCount++
             draw(context)
             animationFrameId = window.requestAnimationFrame(render)
