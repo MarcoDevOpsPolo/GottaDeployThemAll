@@ -22,6 +22,7 @@ export default function MapCanvas(props) {
         y: 1,
         isSet: false
     })
+    const [locations, setLocations] = useState([])
 
     // imgs
     const backgroundImg = new Image()
@@ -112,16 +113,36 @@ export default function MapCanvas(props) {
         }
     }
 
+    /**
+     * @param {Number} posx 
+     * @param {Number} posy 
+     * @param {CanvasRenderingContext2D} context 
+     * @returns {Uint8ClampedArray} RGBA colors
+     */
     function getColour(posx, posy, context) {
         return context.getImageData(Math.round(posx), Math.round(posy), 1, 1).data
     }
 
+    /**
+     * Tests wheter position is accessible or not
+     * @param {Number} posx 
+     * @param {Number} posy 
+     * @param {CanvasRenderingContext2D} context 
+     * @returns {Boolean} 
+     */
     function isBlocked(posx, posy, context) {
         const tolerance = 25
         const rgb = getColour(posx, posy, context)
         return (rgb[0] < tolerance && rgb[1] < tolerance && rgb[2] < tolerance)
     }
 
+    /**
+     * Wheter all pixels in the search area are accessible 
+     * @param {Number} newPosx 
+     * @param {Number} newPosy 
+     * @param {CanvasRenderingContext2D} context 
+     * @returns {Boolean}
+     */
     function canYouGetThere(newPosx, newPosy, context) {
         const searchAreaRadius = 5
         for (let x = newPosx - searchAreaRadius * canvasPixel.x; x < newPosx + searchAreaRadius * canvasPixel.x; x++) {
@@ -183,6 +204,19 @@ export default function MapCanvas(props) {
         }
         console.log(playerPosition)
     }, [canvasPixel, playerState])
+
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         const response = await fetch('https://pokeapi.co/api/v2/location');
+    //         const jsonData = await response.json();
+    //         setLocations(jsonData.results);
+    //     };
+    //     fetchData();
+    // }, []);
+
+    // useEffect(() => {
+    //     console.log(locations)
+    // }, [locations])
 
 
     return (
