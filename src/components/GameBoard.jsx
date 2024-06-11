@@ -8,7 +8,7 @@ export function GameBoard(props) {
     useEffect(() => {
         //Mount
         const parts = props.location.split("-")
-        let name = "./../public/"
+        let name = "/"
         if (parts[0] === "oreburgh" || parts[0] === "sinnoh") {
             name += parts[0] + "_" + parts[1] + ".png"
         } else {
@@ -29,7 +29,6 @@ export function GameBoard(props) {
 
     return (
         <div id="gameBoard" style={ {'--img': `url(${backgroundImg})`}}>
-            {/* <img src={backgroundImg} alt="background test" /> */}
         </div>
     )
 }
