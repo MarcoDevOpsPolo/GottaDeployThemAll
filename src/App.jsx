@@ -28,7 +28,8 @@ function App() {
 
   return (
     <>
-      {showPage}    <Location/>
+      {/* {showPage} */}
+      <Location />
     </>
   )
 }
