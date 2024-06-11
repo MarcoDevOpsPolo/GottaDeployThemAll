@@ -55,6 +55,12 @@ export default function MapCanvas(props) {
         if (playerPosition !== null) {
             drawPlayer(context, playerImg, playerPosition.facing, playerPosition.animationStep, playerPosition.x, playerPosition.y)
         }
+        if (locations) {
+            // drawLocation(context, { topLeft: { x: 0, y: 0 }, bottomRight: { x: 100, y: 100 } }, "teszt")
+            const temp = Object(locations[12])
+            console.log(temp.pos)
+            // drawLocation(context, temp.pos, temp.properName)
+        }
 
     }
 
@@ -70,6 +76,23 @@ export default function MapCanvas(props) {
         const scaledPlayerWidth = (player.width / 4) * canvasPixel.x
         const scaledPlayerHeight = (player.height / 4) * 1.4 * canvasPixel.y
         context.drawImage(player, (animationStep % 4) * player.width / 4, facing * player.height / 4, player.width / 4, player.height / 4, posx - (scaledPlayerWidth / 2), posy - (scaledPlayerHeight / 2), scaledPlayerWidth, scaledPlayerHeight)
+    }
+
+    /**
+     * draw a location to the map
+     * @param {CanvasRenderingContext2D} context 
+     * @param {Object} locationPos { topLeft: {x,y} bottomRight: {x,y}}
+     */
+    function drawLocation(context, locationPos, locationName) {
+        const fontSizePixel = 32 * canvasPixel.y
+        const width = locationPos.bottomRight.x - locationPos.topLeft.x
+        const height = locationPos.bottomRight.y - locationPos.topLeft.y
+        context.fillStyle = `rgba(100,100,100,0.5)`
+        context.rect(locationPos.topLeft.x, locationPos.topLeft.y, width, height)
+        context.fill()
+        context.fillStyle = `rgba(255,255,255,1)`
+        context.font = `${fontSizePixel}px serif`
+        context.fillText(locationName, width * 0.6 / 2, (height + fontSizePixel) / 2)
     }
 
     window.onkeydown = (e) => {
@@ -242,9 +265,9 @@ export default function MapCanvas(props) {
         fetchData();
     }, []);
 
-    useEffect(() => {
-        console.log(locations)
-    }, [locations])
+    // useEffect(() => {
+    //     console.log(Object(locations[6])["name"])
+    // }, [locations])
 
 
     return (
