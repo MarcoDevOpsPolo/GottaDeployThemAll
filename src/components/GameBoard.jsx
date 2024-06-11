@@ -23,7 +23,7 @@ export function GameBoard(props) {
         setBackgroundImg(name);
 
         const textRows = [
-            "Welcome in Eterna City!",
+            "Welcome to Eterna City!",
             "You might encounter here a lot of exciting pokemons!",
             "Let's take a walk and try to find one..."
         ];
@@ -32,6 +32,12 @@ export function GameBoard(props) {
         //Unmount
         return () => {};
     }, []);
+
+    useEffect(() => {
+        if (texts.length > 0 && currentBox === texts.length) {
+            alert("Encounter starts!")
+        }
+    }, [currentBox])
 
     return (
         <div id="gameBoard" style={{ '--img': `url(${backgroundImg})` }}>
