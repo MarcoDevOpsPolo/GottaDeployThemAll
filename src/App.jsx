@@ -7,6 +7,7 @@ import MapCanvas from './components/MapCanvas'
 function App() {
   const [myPokemons, setMyPokemons] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
+  const [currentLocation, setCurrentLocation] = useState(null)
   let showPage
   switch (currentPage) {
     case 1:
@@ -16,10 +17,10 @@ function App() {
       showPage = <PokemonSelector setCurrentPage={setCurrentPage} setMyPokemons={setMyPokemons} myPokemons={myPokemons} />
       break
     case 3:
-      showPage = <MapCanvas setCurrentPage={setCurrentPage} />
+      showPage = <MapCanvas setCurrentPage={setCurrentPage} setCurrentLocation={setCurrentLocation} />
       break
     case 4:
-      showPage = <Location setCurrentPage={setCurrentPage} />
+      showPage = <Location setCurrentPage={setCurrentPage} name={currentLocation.name} url={currentLocation.url} />
       break
     case 5:
       showPage = <Showdown setCurrentPage={setCurrentPage} />

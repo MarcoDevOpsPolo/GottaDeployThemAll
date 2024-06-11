@@ -41,6 +41,7 @@ export default function MapCanvas(props) {
     let wallCanvas2dContext = null
     let localLocations = false
     let wallsSet = false
+    let currentLocation = false
 
 
     // local functions
@@ -87,20 +88,19 @@ export default function MapCanvas(props) {
      * @param {Object} locationsArr pos: { topLeft: {x,y} bottomRight: {x,y}}
      */
     function drawLocations(context, locationsArr) {
+        let currentCounter = 0
         const fontSizePixel = 32 * canvasPixel.y
-        let current = false
         locationsArr.forEach(location => {
             const adjustedTopX = location.pos.topLeft.x * canvasPixel.x
             const adjustedTopY = location.pos.topLeft.y * canvasPixel.y
             const adjustedBottomX = location.pos.bottomRight.x * canvasPixel.x
             const adjustedBottomY = location.pos.bottomRight.y * canvasPixel.y
             if (adjustedTopX < playerPosition.x && adjustedBottomX > playerPosition.x && adjustedTopY < playerPosition.y && adjustedBottomY > playerPosition.y) {
-                current = true
+                currentLocation = location
+                currentCounter++
                 if (!location.isDiscovered) {
                     location.isDiscovered = true
                 }
-            } else {
-                current = false
             }
             if (location.isDiscovered) {
                 const width = adjustedBottomX - adjustedTopX
@@ -115,7 +115,9 @@ export default function MapCanvas(props) {
         })
         context.fillStyle = `rgba(242,226,145,0.33)`
         context.fill()
-
+        if (currentCounter === 0) {
+            currentLocation = false
+        }
     }
 
 
@@ -130,33 +132,42 @@ export default function MapCanvas(props) {
             if (e.key === "ArrowDown") {
                 playerPosition.facing = 0
                 newY += playerPosition.speed * canvasPixel.y
-                if (canYouGetThere(newX, newY, wallCanvas2dContext)) {
-                    playerPosition.y = newY
-                }
+                // if (canYouGetThere(newX, newY, wallCanvas2dContext)) {
+                playerPosition.y = newY
+                // }
             }
             if (e.key === "ArrowLeft") {
                 playerPosition.facing = 1
                 newX -= playerPosition.speed * canvasPixel.x
-                if (canYouGetThere(newX, newY, wallCanvas2dContext)) {
-                    playerPosition.x = newX
-                }
+                // if (canYouGetThere(newX, newY, wallCanvas2dContext)) {
+                playerPosition.x = newX
+                // }
             }
             if (e.key === "ArrowRight") {
                 playerPosition.facing = 2
                 newX += playerPosition.speed * canvasPixel.x
-                if (canYouGetThere(newX, newY, wallCanvas2dContext)) {
-                    playerPosition.x = newX
-                }
+                // if (canYouGetThere(newX, newY, wallCanvas2dContext)) {
+                playerPosition.x = newX
+                // }
             }
             if (e.key === "ArrowUp") {
                 playerPosition.facing = 3
                 newY -= playerPosition.speed * canvasPixel.y
-                if (canYouGetThere(newX, newY, wallCanvas2dContext)) {
-                    playerPosition.y = newY
-                }
+                // if (canYouGetThere(newX, newY, wallCanvas2dContext)) {
+                playerPosition.y = newY
+                // }
             }
+        }
+        if (e.key === "Enter") {
+            console.log(currentLocation)
+        }
 
-
+        if (e.key === "Enter" && currentLocation) {
+            props.setCurrentLocation({
+                name: currentLocation.name,
+                url: currentLocation.url
+            })
+            props.setCurrentPage(4)
         }
     }
 
