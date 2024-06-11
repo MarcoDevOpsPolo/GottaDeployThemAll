@@ -11,13 +11,6 @@ export default function MapCanvas(props) {
     const wallCanvasRef = useRef(null)
 
     // states
-    const [playerState, setPlayerState] = useState({
-        x: 537,
-        y: 455,
-        speed: 6,
-        facing: 0
-    })
-
     const [locations, setLocations] = useState(false)
 
     // imgs
@@ -37,7 +30,7 @@ export default function MapCanvas(props) {
         y: 1,
         isSet: false
     }
-    let playerPosition = null
+    let playerPosition = props.playerState
     let frameCount = 0
     let wallCanvas2dContext = null
     let localLocations = false
@@ -60,6 +53,7 @@ export default function MapCanvas(props) {
         }
 
         if (playerPosition !== null) {
+            // console.log("hello?")
             drawPlayer(context, playerImg, playerPosition.facing, playerPosition.animationStep, playerPosition.x, playerPosition.y)
         }
         if (localLocations) {
@@ -237,13 +231,20 @@ export default function MapCanvas(props) {
         wallCanvas2dContext.canvas.width = window.innerWidth * 0.987
         wallCanvas2dContext.canvas.height = window.innerHeight * 0.98
 
-        console.log(wallCanvas2dContext)
+        // console.log(wallCanvas2dContext)
 
         if (!canvasPixel.isSet) {
             canvasPixel = {
                 x: context.canvas.width / backgroundImg.width,
                 y: context.canvas.height / backgroundImg.height,
                 isSet: true
+            }
+            playerPosition = {
+                x: playerPosition.x * canvasPixel.x,
+                y: playerPosition.y * canvasPixel.y,
+                speed: playerPosition.speed,
+                facing: playerPosition.facing,
+                animationStep: 0
             }
         }
 
@@ -262,16 +263,6 @@ export default function MapCanvas(props) {
 
     }, [draw])
 
-    useEffect(() => {
-        playerPosition = {
-            x: playerState.x * canvasPixel.x,
-            y: playerState.y * canvasPixel.y,
-            speed: playerState.speed,
-            facing: playerState.facing,
-            animationStep: 0
-        }
-        console.log(playerPosition)
-    }, [playerState, draw])
 
     useEffect(() => {
         const fetchData = async () => {
