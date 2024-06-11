@@ -48,7 +48,7 @@ export function GameBoard(props) {
                 ))}
             </div>  
             { (texts.length > 0 && currentBox === texts.length) && <div className="modal">
-                <Modal pokemon={props.encounter.pokemon} oncomplete={ handleComplete} />
+                <Modal pokemon={props.encounter.pokemon} setEncounter={props.setEncounter} encounter={ props.encounter} />
             </div>}
         </div>
     );

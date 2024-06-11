@@ -22,7 +22,7 @@ export function Modal(props) {
             }
             fetchPokemon()
         }
-    }, [])
+    }, [pokemon])
 
     useEffect(() => {
         if (img) {
@@ -30,13 +30,21 @@ export function Modal(props) {
         }
     }, [img])
 
+    const avoid = (e) => {
+        props.setEncounter({ ...props.encounter, encount: false, pokemon: null })
+        setTextRendered(false)
+    }
+
     return (
         <>
             {props.pokemon ? <><h1>Whoa! A <span>{props.pokemon.pokemon.name}!</span></h1>
                 {img && <>
                     <img src={img}></img>
                     <TextBox text="What an exciting encounter! What will you do now?" onComplete={handleComplete}/>
-                    {textRendered && <div className="buttons"><button>Gotta catch'em now!</button><button>Walk forward and avoid facing with this pokemon</button><button>Leave the location</button></div>}
+                    {textRendered && <div className="buttons">
+                        <button>Gotta catch'em now!</button>
+                        <button onClick={(e) => { avoid(e) }}>Walk forward and avoid facing with this pokemon</button>
+                        <button>Leave the location</button></div>}
                 </>}
                 
             </>
