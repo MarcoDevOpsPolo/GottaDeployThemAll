@@ -1,6 +1,6 @@
 #gameBoard {
-    width: 40rem;
-    height: 40rem;
+    width: 42rem;
+    height: 42rem;
     border: 1rem solid black;
     background-image: var(--img);
     background-position: center;
