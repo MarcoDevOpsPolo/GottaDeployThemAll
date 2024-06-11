@@ -8,3 +8,15 @@
     background-repeat: no-repeat;
     background-color: black;
 }
+
+#gameBoard > .textBox {
+    width: 100%;
+    height: auto;
+    background-color: rgba(0, 0, 0, 0.611);
+    color: white;
+}
+
+.textBox > p {
+ 
+    margin: 1%;
+}
