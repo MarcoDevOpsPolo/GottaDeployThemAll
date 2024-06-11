@@ -22,6 +22,8 @@ export default function MapCanvas(props) {
 
     const wallImg = new Image()
     wallImg.src = backgroundWallsSrc
+    let wallLoaded = false
+    wallImg.onload = () => wallLoaded = true
 
     // local variables
     let canvasPixel = {
@@ -45,19 +47,17 @@ export default function MapCanvas(props) {
         context.clearRect(0, 0, context.canvas.width, context.canvas.height)
         // context.drawImage(backgroundImg, 0, 0, context.canvas.width, context.canvas.height)
 
-        if (!wallsSet) {
+        if (!wallsSet && wallLoaded) {
             wallCanvas2dContext.clearRect(0, 0, wallCanvas2dContext.canvas.width, wallCanvas2dContext.canvas.height)
             wallCanvas2dContext.drawImage(wallImg, 0, 0, wallCanvas2dContext.canvas.width, wallCanvas2dContext.canvas.height)
             wallsSet = true
         }
 
         if (playerPosition !== null) {
-            // console.log("hello?")
             drawPlayer(context, playerImg, playerPosition.facing, playerPosition.animationStep, playerPosition.x, playerPosition.y)
         }
         if (localLocations) {
             drawLocations(context, localLocations)
-            // console.log(localLocations)
         }
 
     }
@@ -126,30 +126,30 @@ export default function MapCanvas(props) {
             if (e.key === "ArrowDown") {
                 playerPosition.facing = 0
                 newY += playerPosition.speed * canvasPixel.y
-                // if (canYouGetThere(newX, newY, wallCanvas2dContext)) {
-                playerPosition.y = newY
-                // }
+                if (canYouGetThere(newX, newY, wallCanvas2dContext)) {
+                    playerPosition.y = newY
+                }
             }
             if (e.key === "ArrowLeft") {
                 playerPosition.facing = 1
                 newX -= playerPosition.speed * canvasPixel.x
-                // if (canYouGetThere(newX, newY, wallCanvas2dContext)) {
-                playerPosition.x = newX
-                // }
+                if (canYouGetThere(newX, newY, wallCanvas2dContext)) {
+                    playerPosition.x = newX
+                }
             }
             if (e.key === "ArrowRight") {
                 playerPosition.facing = 2
                 newX += playerPosition.speed * canvasPixel.x
-                // if (canYouGetThere(newX, newY, wallCanvas2dContext)) {
-                playerPosition.x = newX
-                // }
+                if (canYouGetThere(newX, newY, wallCanvas2dContext)) {
+                    playerPosition.x = newX
+                }
             }
             if (e.key === "ArrowUp") {
                 playerPosition.facing = 3
                 newY -= playerPosition.speed * canvasPixel.y
-                // if (canYouGetThere(newX, newY, wallCanvas2dContext)) {
-                playerPosition.y = newY
-                // }
+                if (canYouGetThere(newX, newY, wallCanvas2dContext)) {
+                    playerPosition.y = newY
+                }
             }
         }
         if (e.key === "Enter") {
