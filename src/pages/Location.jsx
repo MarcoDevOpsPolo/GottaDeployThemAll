@@ -74,7 +74,7 @@ function Location(props) {
     return (
         <>
             {/* <GameBoard location={props.name} /> */}
-            <GameBoard location={"sinnoh-victory-road"} />
+            <GameBoard location={"great"} />
         </>
     )
 }

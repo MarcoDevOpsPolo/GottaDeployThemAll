@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import './../Location.css'
+import './../pages/Location.css'
 
 export function GameBoard(props) {
 
@@ -29,7 +29,7 @@ export function GameBoard(props) {
 
     return (
         <div id="gameBoard" style={ {'--img': `url(${backgroundImg})`}}>
-            <img src={"/sinnoh_victory.png"} alt="background test" />
+            {/* <img src={backgroundImg} alt="background test" /> */}
         </div>
     )
 }
