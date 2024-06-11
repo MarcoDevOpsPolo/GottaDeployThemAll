@@ -8,11 +8,12 @@ export default function MapCanvas(props) {
 
     // refs
     const canvasRef = useRef(null)
+    const wallCanvasRef = useRef(null)
 
     // states
     const [playerState, setPlayerState] = useState({
         x: 537,
-        y: 453,
+        y: 455,
         speed: 4,
         facing: 0
     })
@@ -46,6 +47,10 @@ export default function MapCanvas(props) {
     const draw = (context) => {
         context.clearRect(0, 0, context.canvas.width, context.canvas.height)
         context.drawImage(backgroundImg, 0, 0, context.canvas.width, context.canvas.height)
+
+        wallCanvas2dContext.clearRect(0, 0, wallCanvas2dContext.canvas.width, wallCanvas2dContext.canvas.height)
+        wallCanvas2dContext.drawImage(wallImg, 0, 0, wallCanvas2dContext.canvas.width, wallCanvas2dContext.canvas.height)
+
         if (playerPosition !== null) {
             drawPlayer(context, playerImg, playerPosition.facing, playerPosition.animationStep, playerPosition.x, playerPosition.y)
         }
@@ -69,33 +74,64 @@ export default function MapCanvas(props) {
     window.onkeydown = (e) => {
         const arrows = ["ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown"]
         if (arrows.includes(e.key)) {
+            let newX = playerPosition.x
+            let newY = playerPosition.y
             if (frameCount % 3 === 0) {
                 playerPosition.animationStep++
             }
             if (e.key === "ArrowDown") {
                 playerPosition.facing = 0
-                playerPosition.y += playerPosition.speed * canvasPixel.y
+                newY += playerPosition.speed * canvasPixel.y
+                if (canYouGetThere(newX, newY, wallCanvas2dContext)) {
+                    playerPosition.y = newY
+                }
             }
             if (e.key === "ArrowLeft") {
                 playerPosition.facing = 1
-                playerPosition.x -= playerPosition.speed * canvasPixel.x
+                newX -= playerPosition.speed * canvasPixel.x
+                if (canYouGetThere(newX, newY, wallCanvas2dContext)) {
+                    playerPosition.x = newX
+                }
             }
             if (e.key === "ArrowRight") {
                 playerPosition.facing = 2
-                playerPosition.x += playerPosition.speed * canvasPixel.x
+                newX += playerPosition.speed * canvasPixel.x
+                if (canYouGetThere(newX, newY, wallCanvas2dContext)) {
+                    playerPosition.x = newX
+                }
             }
             if (e.key === "ArrowUp") {
                 playerPosition.facing = 3
-                playerPosition.y -= playerPosition.speed * canvasPixel.y
+                newY -= playerPosition.speed * canvasPixel.y
+                if (canYouGetThere(newX, newY, wallCanvas2dContext)) {
+                    playerPosition.y = newY
+                }
             }
-            // console.log(getColour(playerPosition.x, playerPosition.y, wallCanvas2dContext))
+
 
         }
     }
 
     function getColour(posx, posy, context) {
         return context.getImageData(Math.round(posx), Math.round(posy), 1, 1).data
+    }
 
+    function isBlocked(posx, posy, context) {
+        const tolerance = 25
+        const rgb = getColour(posx, posy, context)
+        return (rgb[0] < tolerance && rgb[1] < tolerance && rgb[2] < tolerance)
+    }
+
+    function canYouGetThere(newPosx, newPosy, context) {
+        const searchAreaRadius = 5
+        for (let x = newPosx - searchAreaRadius * canvasPixel.x; x < newPosx + searchAreaRadius * canvasPixel.x; x++) {
+            for (let y = newPosy - searchAreaRadius * canvasPixel.y; y < newPosy + searchAreaRadius * canvasPixel.y; y++) {
+                if (isBlocked(x, y, context)) {
+                    return false
+                }
+            }
+        }
+        return true
     }
 
     // use effects
@@ -110,11 +146,12 @@ export default function MapCanvas(props) {
         // ezt lehet nem itt kell beállítani? még nem tudom pontosan
         // console.log("na és ez?")
         // const context = canvasRef.current.getContext("2d")
-        // const wallCanvas = new OffscreenCanvas(context.canvas.width, context.canvas.height)
-        // wallCanvas2dContext = wallCanvas.getContext('2d')
-        // wallCanvas2dContext.clearRect(0, 0, wallCanvas2dContext.canvas.width, wallCanvas2dContext.canvas.height)
-        // wallCanvas2dContext.drawImage(wallImg, 0, 0, wallCanvas2dContext.canvas.width, wallCanvas2dContext.canvas.height)
-        // console.log(wallCanvas2dContext)
+        const wallCanvas = wallCanvasRef.current
+        wallCanvas2dContext = wallCanvas.getContext('2d')
+        wallCanvas2dContext.canvas.width = window.innerWidth * 0.987
+        wallCanvas2dContext.canvas.height = window.innerHeight * 0.98
+
+        console.log(wallCanvas2dContext)
 
         if (!canvasPixel.isSet) {
             setCanvasPixel({
@@ -153,6 +190,9 @@ export default function MapCanvas(props) {
 
 
     return (
-        <canvas ref={canvasRef} className='canvas-main'></canvas>
+        <>
+            <canvas ref={canvasRef} className='canvas-main'></canvas>
+            <canvas ref={wallCanvasRef} className='hidden'></canvas>
+        </>
     )
 }
