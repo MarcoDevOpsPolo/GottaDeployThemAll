@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import calculatePokemonEncounter from "../services/multiFuncty"
+import { GameBoard } from "../components/GameBoard"
 
 function Location(props) {
     const [pokemons, setPokemons] = useState([])
@@ -72,8 +73,8 @@ function Location(props) {
 
     return (
         <>
-            <h1>Prepare yourself for an encounter in this Location!</h1>
-            {pokemons ? <h2>Check the console! I found some pokemons to encounter with!</h2> : <h2>Pokemons, where are you?...</h2>}
+            {/* <GameBoard location={props.name} /> */}
+            <GameBoard location={"sinnoh-victory-road"} />
         </>
     )
 }
