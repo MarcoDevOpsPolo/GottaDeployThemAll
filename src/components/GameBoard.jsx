@@ -9,7 +9,7 @@ export function GameBoard(props) {
         //Mount
         const parts = props.location.split("-")
         let name = "/"
-        if (parts[0] === "oreburgh" || parts[0] === "sinnoh") {
+        if (parts[0] === "oreburgh" || parts[0] === "sinnoh" || parts[0] === "eterna") {
             name += parts[0] + "_" + parts[1] + ".png"
         } else {
             name += parts[0] + ".png"
