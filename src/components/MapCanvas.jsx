@@ -40,6 +40,7 @@ export default function MapCanvas(props) {
     let frameCount = 0
     let wallCanvas2dContext = null
     let localLocations = false
+    let wallsSet = false
 
 
     // local functions
@@ -48,21 +49,21 @@ export default function MapCanvas(props) {
      */
     const draw = (context) => {
         context.clearRect(0, 0, context.canvas.width, context.canvas.height)
-        context.drawImage(backgroundImg, 0, 0, context.canvas.width, context.canvas.height)
+        // context.drawImage(backgroundImg, 0, 0, context.canvas.width, context.canvas.height)
 
-        wallCanvas2dContext.clearRect(0, 0, wallCanvas2dContext.canvas.width, wallCanvas2dContext.canvas.height)
-        wallCanvas2dContext.drawImage(wallImg, 0, 0, wallCanvas2dContext.canvas.width, wallCanvas2dContext.canvas.height)
+        if (!wallsSet) {
+            wallCanvas2dContext.clearRect(0, 0, wallCanvas2dContext.canvas.width, wallCanvas2dContext.canvas.height)
+            wallCanvas2dContext.drawImage(wallImg, 0, 0, wallCanvas2dContext.canvas.width, wallCanvas2dContext.canvas.height)
+            wallsSet = true
+        }
 
         if (playerPosition !== null) {
             drawPlayer(context, playerImg, playerPosition.facing, playerPosition.animationStep, playerPosition.x, playerPosition.y)
         }
-        // if (localLocations) {
-        //     localLocations.forEach(location => {
-        //         if (location.isDiscovered) {
-        //             drawLocation(context, location.pos, location.properName)
-        //         }
-        //     })
-        // }
+        if (localLocations) {
+            drawLocations(context, localLocations)
+            // console.log(localLocations)
+        }
 
     }
 
@@ -83,19 +84,24 @@ export default function MapCanvas(props) {
     /**
      * draw a location to the map
      * @param {CanvasRenderingContext2D} context 
-     * @param {Object} locationPos { topLeft: {x,y} bottomRight: {x,y}}
+     * @param {Object} locationsArr pos: { topLeft: {x,y} bottomRight: {x,y}}
      */
-    function drawLocation(context, locationPos, locationName) {
+    function drawLocations(context, locationsArr) {
         const fontSizePixel = 32 * canvasPixel.y
-        const width = locationPos.bottomRight.x - locationPos.topLeft.x
-        const height = locationPos.bottomRight.y - locationPos.topLeft.y
+        locationsArr.forEach(location => {
+            if (location.isDiscovered) {
+                const width = location.pos.bottomRight.x * canvasPixel.x - location.pos.topLeft.x * canvasPixel.x
+                const height = location.pos.bottomRight.y * canvasPixel.y - location.pos.topLeft.y * canvasPixel.y
+                context.rect(Math.round(location.pos.topLeft.x * canvasPixel.x), Math.round(location.pos.topLeft.y * canvasPixel.y), Math.round(width), Math.round(height))
+            }
+        })
         context.fillStyle = `rgba(100,100,100,0.5)`
-        context.rect(Math.round(locationPos.topLeft.x), Math.round(locationPos.topLeft.y), Math.round(width), Math.round(height))
         context.fill()
         // context.fillStyle = `rgba(255,255,255,1)`
         // context.font = `${fontSizePixel}px serif`
         // context.fillText(locationName, width * 0.6 / 2, (height + fontSizePixel) / 2)
     }
+
 
     window.onkeydown = (e) => {
         const arrows = ["ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown"]
@@ -199,7 +205,7 @@ export default function MapCanvas(props) {
         console.log("ugye nem crash? 😇")
 
         const wallCanvas = wallCanvasRef.current
-        wallCanvas2dContext = wallCanvas.getContext('2d')
+        wallCanvas2dContext = wallCanvas.getContext('2d', { alpha: false })
         wallCanvas2dContext.canvas.width = window.innerWidth * 0.987
         wallCanvas2dContext.canvas.height = window.innerHeight * 0.98
 
@@ -241,15 +247,217 @@ export default function MapCanvas(props) {
 
     useEffect(() => {
         const fetchData = async () => {
+            const areas = [
+                {
+                    topLeft: {
+                        x: 615,
+                        y: 251
+                    },
+                    bottomRight: {
+                        x: 760,
+                        y: 370
+                    }
+                },
+                {
+                    topLeft: {
+                        x: 1305,
+                        y: 54
+                    },
+                    bottomRight: {
+                        x: 1457,
+                        y: 194
+                    }
+                },
+                {
+                    topLeft: {
+                        x: 185,
+                        y: 950
+                    },
+                    bottomRight: {
+                        x: 290,
+                        y: 1020
+                    }
+                },
+                {
+                    topLeft: {
+                        x: 1353,
+                        y: 840
+                    },
+                    bottomRight: {
+                        x: 1534,
+                        y: 960
+                    }
+                },
+                {
+                    topLeft: {
+                        x: 580,
+                        y: 26
+                    },
+                    bottomRight: {
+                        x: 785,
+                        y: 177
+                    }
+                },
+                {
+                    topLeft: {
+                        x: 18,
+                        y: 397
+                    },
+                    bottomRight: {
+                        x: 217,
+                        y: 558
+                    }
+                },
+                {
+                    topLeft: {
+                        x: 57,
+                        y: 703
+                    },
+                    bottomRight: {
+                        x: 188,
+                        y: 892
+                    }
+                },
+                {
+                    topLeft: {
+                        x: 1263,
+                        y: 216
+                    },
+                    bottomRight: {
+                        x: 1523,
+                        y: 421
+                    }
+                },
+                {
+                    topLeft: {
+                        x: 970,
+                        y: 175
+                    },
+                    bottomRight: {
+                        x: 1133,
+                        y: 338
+                    }
+                },
+                {
+                    topLeft: {
+                        x: 229,
+                        y: 124
+                    },
+                    bottomRight: {
+                        x: 496,
+                        y: 280
+                    }
+                },
+                {
+                    topLeft: {
+                        x: 1019,
+                        y: 598
+                    },
+                    bottomRight: {
+                        x: 1195,
+                        y: 758
+                    }
+                },
+                {
+                    topLeft: {
+                        x: 820,
+                        y: 713
+                    },
+                    bottomRight: {
+                        x: 1006,
+                        y: 873
+                    }
+                },
+                {
+                    topLeft: {
+                        x: 1232,
+                        y: 452
+                    },
+                    bottomRight: {
+                        x: 1428,
+                        y: 573
+                    }
+                },
+                {
+                    topLeft: {
+                        x: 283,
+                        y: 751
+                    },
+                    bottomRight: {
+                        x: 436,
+                        y: 860
+                    }
+                },
+                {
+                    topLeft: {
+                        x: 1111,
+                        y: 27
+                    },
+                    bottomRight: {
+                        x: 1271,
+                        y: 138
+                    }
+                },
+                {
+                    topLeft: {
+                        x: 820,
+                        y: 197
+                    },
+                    bottomRight: {
+                        x: 920,
+                        y: 340
+                    }
+                },
+                {
+                    topLeft: {
+                        x: 1084,
+                        y: 801
+                    },
+                    bottomRight: {
+                        x: 1266,
+                        y: 966
+                    }
+                },
+                {
+                    topLeft: {
+                        x: 402,
+                        y: 872
+                    },
+                    bottomRight: {
+                        x: 667,
+                        y: 1018
+                    }
+                },
+                {
+                    topLeft: {
+                        x: 552,
+                        y: 695
+                    },
+                    bottomRight: {
+                        x: 790,
+                        y: 851
+                    }
+                },
+                {
+                    topLeft: {
+                        x: 251,
+                        y: 503
+                    },
+                    bottomRight: {
+                        x: 462,
+                        y: 682
+                    }
+                },
+            ]
             const response = await fetch('https://pokeapi.co/api/v2/location');
             const jsonData = await response.json();
 
             const locationsApiData = jsonData.results.map((location, i) => ({
                 name: location.name,
                 properName: properName(location.name),
-                id: i,
-                isDiscovered: i % 3 === 0,
-                pos: {
+                id: i + 1,
+                isDiscovered: true,
+                pos: areas[i] ? areas[i] : {
                     topLeft: {
                         x: 0,
                         y: 0

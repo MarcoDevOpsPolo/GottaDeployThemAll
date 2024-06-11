@@ -1,4 +1,8 @@
 .hidden {
     display: none;
-    background-image: url("teszt");
+}
+
+.canvas-main {
+    background-image: url("assets/maps/map3.png");
+    background-size: 100% 100%;
 }
