@@ -17,15 +17,11 @@ export function GameBoard(props) {
 
         setBackgroundImg(name)
 
-        if (backgroundImg) {
-            console.log(backgroundImg)
-        }
-
         //Unmount
         return () => {
             
         }
-    }, [backgroundImg])
+    }, [])
 
     return (
         <div id="gameBoard" style={ {'--img': `url(${backgroundImg})`}}>
