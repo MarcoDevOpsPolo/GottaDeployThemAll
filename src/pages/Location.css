@@ -11,13 +11,13 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    color: white;
 }
 
 #gameBoard > .textBox {
     width: 100%;
     height: auto;
     background-color: rgba(0, 0, 0, 0.611);
-    color: white;
     line-height: normal;
     
 }
@@ -34,4 +34,14 @@
     justify-content: flex-end;
     flex-grow: 2;
     background-color: rgba(0, 0, 0, 0.611);
+    text-align: center;
+}
+
+.modal > h1 > span {
+    font-style: italic;
+}
+
+.modal > img {
+    width: 15rem;
+    height: 15rem;
 }

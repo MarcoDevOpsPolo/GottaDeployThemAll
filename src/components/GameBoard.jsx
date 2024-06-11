@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import './../pages/Location.css';
 import { TextBox } from "./TextBox";
+import { Modal } from "./Modal";
 
 export function GameBoard(props) {
     const [backgroundImg, setBackgroundImg] = useState("");
@@ -33,12 +34,6 @@ export function GameBoard(props) {
         return () => {};
     }, []);
 
-    useEffect(() => {
-        if (texts.length > 0 && currentBox === texts.length) {
-            alert("Encounter starts!")
-        }
-    }, [currentBox])
-
     return (
         <div id="gameBoard" style={{ '--img': `url(${backgroundImg})` }}>
             <div className="textBox">
@@ -53,7 +48,7 @@ export function GameBoard(props) {
                 ))}
             </div>  
             { (texts.length > 0 && currentBox === texts.length) && <div className="modal">
-
+                <Modal pokemon={props.encounter.pokemon} oncomplete={ handleComplete} />
             </div>}
         </div>
     );
