@@ -25,7 +25,7 @@ export function GameBoard(props) {
         const textRows = [
             "Welcome to Eterna City!",
             "You might encounter here a lot of exciting pokemons!",
-            "Let's take a walk and try to find one..."
+            "Let's take a walk and try to find one...",
         ];
         setTexts(textRows);
 
@@ -51,7 +51,10 @@ export function GameBoard(props) {
                         />
                     )
                 ))}
-            </div>    
+            </div>  
+            { (texts.length > 0 && currentBox === texts.length) && <div className="modal">
+
+            </div>}
         </div>
     );
 }

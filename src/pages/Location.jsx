@@ -30,7 +30,7 @@ function Location(props) {
     }, [])
 
     useEffect(() => {
-        if (pokemons.length > 0) {
+        if (pokemons.length > 0 && encounter.encount === false) {
             let pokemon;
             let options;
             const chances = pokemons.map(poke => poke["version_details"][0]["max_chance"])
@@ -63,7 +63,7 @@ function Location(props) {
             
             setEncounter({...encounter, encount: true, pokemon: pokemon})
         }
-    }, [pokemons])
+    }, [pokemons, encounter])
 
     useEffect(() => {
         if (encounter.encount) {
@@ -74,7 +74,7 @@ function Location(props) {
     return (
         <>
             {/* <GameBoard location={props.name} /> */}
-            <GameBoard location={"eterna-city"} />
+            <GameBoard location={"eterna-city"} setEncounter={setEncounter} encounter={ encounter} />
         </>
     )
 }

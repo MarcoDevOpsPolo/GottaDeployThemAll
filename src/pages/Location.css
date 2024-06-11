@@ -1,5 +1,5 @@
 #gameBoard {
-    width: 42rem;
+    width: 72rem;
     height: 42rem;
     border: 1rem solid black;
     background-image: var(--img);
@@ -7,6 +7,10 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 #gameBoard > .textBox {
@@ -14,9 +18,20 @@
     height: auto;
     background-color: rgba(0, 0, 0, 0.611);
     color: white;
+    line-height: normal;
+    
 }
 
 .textBox > p {
- 
-    margin: 1%;
+    margin: 0;
+    font-size: 1.5rem;
+    flex-grow: 1;
+}
+
+.modal {
+    width: 90%;
+    height: 30%;
+    justify-content: flex-end;
+    flex-grow: 2;
+    background-color: rgba(0, 0, 0, 0.611);
 }
