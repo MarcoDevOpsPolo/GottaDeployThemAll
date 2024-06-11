@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import LandingPage from './pages/Landing'
 import PokemonSelector from './pages/PokemonSelector'
+import MapCanvas from './components/MapCanvas'
 
 function App() {
   const [myPokemons, setMyPokemons] = useState([])
@@ -15,7 +16,7 @@ function App() {
       showPage = <PokemonSelector setCurrentPage={setCurrentPage} setMyPokemons={setMyPokemons} myPokemons={myPokemons} />
       break
     case 3:
-      showPage = <Map setCurrentPage={setCurrentPage} />
+      showPage = <MapCanvas setCurrentPage={setCurrentPage} />
       break
     case 4:
       showPage = <Location setCurrentPage={setCurrentPage} />
