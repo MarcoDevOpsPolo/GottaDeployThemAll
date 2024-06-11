@@ -8,6 +8,7 @@ export function TextBox({ text, onComplete, speed = 30, tag }) {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
+        console.log("textbox works")
         if (currentIndex < text.length) {
             const timeoutId = setTimeout(() => {
                 setDisplayedText((prev) => prev + text[currentIndex]);
@@ -20,6 +21,8 @@ export function TextBox({ text, onComplete, speed = 30, tag }) {
                 onComplete();
             }
         }
+
+        return () => { }
     }, [currentIndex, text, speed, onComplete]);
 
     return <>{tag ? React.createElement(tag, null, displayedText): <p>{displayedText}</p>}</>;
