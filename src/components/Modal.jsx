@@ -36,7 +36,7 @@ export function Modal(props) {
                 {img && <>
                     <img src={img}></img>
                     <TextBox text="What an exciting encounter! What will you do now?" onComplete={handleComplete}/>
-                    {textRendered && <div className="buttons"><button>Fight!</button><button>Run!</button><button>Back to the WorldMap!</button></div>}
+                    {textRendered && <div className="buttons"><button>Gotta catch'em now!</button><button>Walk forward and avoid facing with this pokemon</button><button>Leave the location</button></div>}
                 </>}
                 
             </>
