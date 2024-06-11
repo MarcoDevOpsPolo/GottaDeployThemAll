@@ -6,7 +6,7 @@ import { GameBoard } from "../components/GameBoard"
 
 function Location(props) {
     const [pokemons, setPokemons] = useState([])
-    const [encounter, setEncounter] = useState({encount: false, pokemon: null})
+    const [encounter, setEncounter] = useState({ encount: false, pokemon: null })
 
     useEffect(() => {
         //Mount
@@ -35,7 +35,8 @@ function Location(props) {
             let options;
             const chances = pokemons.map(poke => poke["version_details"][0]["max_chance"])
             const noEncounterChance = pokemons.reduce( (chance, poke) => poke["version_details"][0]["max_chance"] < chance ? poke["version_details"][0]["max_chance"] : chance, Math.max(...chances)) + 10
-            let randomNumber = Math.round(Math.random() * Math.max(...chances))
+            //let randomNumber = Math.round(Math.random() * Math.max(...chances))
+            let randomNumber = Math.round(Math.random() * 60)
 
             console.log("pokemons: ", pokemons)
             console.log("chances:", chances)

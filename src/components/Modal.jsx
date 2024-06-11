@@ -4,14 +4,20 @@ import { TextBox } from "./TextBox"
 export function Modal(props) {
 
     const [img, setImg] = useState()
-    const [pokemon, setPokemon] = useState()
+    const [pokemon, setPokemon] = useState(null)
     const [textRendered, setTextRendered] = useState(false)
 
     const handleComplete = useCallback(() => setTextRendered(true), [])
 
     useEffect(() => {
-        if (props.pokemon) {
+        console.log("POKEMON USEFECT TRIGGERED")
+        console.log(props.pokemon && pokemon === null)
+        console.log(props.pokemon !== null)
+        console.log(pokemon === null)
+        if (props.pokemon && pokemon === null) {
+            
             async function fetchPokemon() {
+                console.log("start to fetch new pokemon data")
                 const response = await fetch(props.pokemon.pokemon.url)
                 const jsonData = await response.json()
 
@@ -22,22 +28,28 @@ export function Modal(props) {
             }
             fetchPokemon()
         }
+
     }, [pokemon])
 
     useEffect(() => {
         if (img) {
             console.log(img)
+        } else {
+            console.log("img deleted")
         }
-    }, [img])
+    }, [img])    
 
-    const avoid = (e) => {
+    const avoid = useCallback(() => {
         props.setEncounter({ ...props.encounter, encount: false, pokemon: null })
         setTextRendered(false)
-    }
+        setPokemon((prev) => null)
+        setImg()
+    })
 
     return (
         <>
-            {props.pokemon ? <><h1>Whoa! A <span>{props.pokemon.pokemon.name}!</span></h1>
+            {props.pokemon ? <>
+                <h1>Whoa! A <span>{props.pokemon.pokemon.name}!</span></h1>
                 {img && <>
                     <img src={img}></img>
                     <TextBox text="What an exciting encounter! What will you do now?" onComplete={handleComplete}/>
@@ -46,10 +58,15 @@ export function Modal(props) {
                         <button onClick={(e) => { avoid(e) }}>Walk forward and avoid facing with this pokemon</button>
                         <button>Leave the location</button></div>}
                 </>}
-                
             </>
-        
-                : <h1>No pokemon</h1>}
+                : <>
+                <TextBox text="You're walking for a while, but there is not a single pokemon to catch. What a disappointment!" onComplete={handleComplete} tag="h1"/>
+                    {textRendered && <div className="buttons">
+                        <button>Leave this boring location</button>
+                        <button onClick={ (e) => avoid(e)}>Walk forward, I heard something over there...</button>
+                    </div>}
+                </>
+            }
         </>
     )
 }
