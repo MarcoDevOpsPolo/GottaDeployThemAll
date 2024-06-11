@@ -14,7 +14,7 @@ export default function MapCanvas(props) {
     const [playerState, setPlayerState] = useState({
         x: 537,
         y: 455,
-        speed: 4,
+        speed: 6,
         facing: 0
     })
     const [canvasPixel, setCanvasPixel] = useState({
@@ -22,7 +22,7 @@ export default function MapCanvas(props) {
         y: 1,
         isSet: false
     })
-    const [locations, setLocations] = useState([])
+    const [locations, setLocations] = useState(false)
 
     // imgs
     const backgroundImg = new Image()
@@ -39,6 +39,7 @@ export default function MapCanvas(props) {
     let playerPosition = null
     let frameCount = 0
     let wallCanvas2dContext = null
+    let localLocations = false
 
 
     // local functions
@@ -55,12 +56,13 @@ export default function MapCanvas(props) {
         if (playerPosition !== null) {
             drawPlayer(context, playerImg, playerPosition.facing, playerPosition.animationStep, playerPosition.x, playerPosition.y)
         }
-        if (locations) {
-            // drawLocation(context, { topLeft: { x: 0, y: 0 }, bottomRight: { x: 100, y: 100 } }, "teszt")
-            const temp = Object(locations[12])
-            console.log(temp.pos)
-            // drawLocation(context, temp.pos, temp.properName)
-        }
+        // if (localLocations) {
+        //     localLocations.forEach(location => {
+        //         if (location.isDiscovered) {
+        //             drawLocation(context, location.pos, location.properName)
+        //         }
+        //     })
+        // }
 
     }
 
@@ -75,7 +77,7 @@ export default function MapCanvas(props) {
     function drawPlayer(context, player, facing, animationStep, posx, posy) {
         const scaledPlayerWidth = (player.width / 4) * canvasPixel.x
         const scaledPlayerHeight = (player.height / 4) * 1.4 * canvasPixel.y
-        context.drawImage(player, (animationStep % 4) * player.width / 4, facing * player.height / 4, player.width / 4, player.height / 4, posx - (scaledPlayerWidth / 2), posy - (scaledPlayerHeight / 2), scaledPlayerWidth, scaledPlayerHeight)
+        context.drawImage(player, Math.round((animationStep % 4) * player.width / 4), Math.round(facing * player.height / 4), Math.round(player.width / 4), Math.round(player.height / 4), Math.round(posx - (scaledPlayerWidth / 2)), Math.round(posy - (scaledPlayerHeight / 2)), Math.round(scaledPlayerWidth), Math.round(scaledPlayerHeight))
     }
 
     /**
@@ -88,11 +90,11 @@ export default function MapCanvas(props) {
         const width = locationPos.bottomRight.x - locationPos.topLeft.x
         const height = locationPos.bottomRight.y - locationPos.topLeft.y
         context.fillStyle = `rgba(100,100,100,0.5)`
-        context.rect(locationPos.topLeft.x, locationPos.topLeft.y, width, height)
+        context.rect(Math.round(locationPos.topLeft.x), Math.round(locationPos.topLeft.y), Math.round(width), Math.round(height))
         context.fill()
-        context.fillStyle = `rgba(255,255,255,1)`
-        context.font = `${fontSizePixel}px serif`
-        context.fillText(locationName, width * 0.6 / 2, (height + fontSizePixel) / 2)
+        // context.fillStyle = `rgba(255,255,255,1)`
+        // context.font = `${fontSizePixel}px serif`
+        // context.fillText(locationName, width * 0.6 / 2, (height + fontSizePixel) / 2)
     }
 
     window.onkeydown = (e) => {
@@ -100,7 +102,7 @@ export default function MapCanvas(props) {
         if (arrows.includes(e.key)) {
             let newX = playerPosition.x
             let newY = playerPosition.y
-            if (frameCount % 3 === 0) {
+            if (frameCount % 2 === 0) {
                 playerPosition.animationStep++
             }
             if (e.key === "ArrowDown") {
@@ -246,7 +248,7 @@ export default function MapCanvas(props) {
                 name: location.name,
                 properName: properName(location.name),
                 id: i,
-                isDiscovered: true,
+                isDiscovered: i % 3 === 0,
                 pos: {
                     topLeft: {
                         x: 0,
@@ -265,9 +267,9 @@ export default function MapCanvas(props) {
         fetchData();
     }, []);
 
-    // useEffect(() => {
-    //     console.log(Object(locations[6])["name"])
-    // }, [locations])
+    useEffect(() => {
+        localLocations = locations
+    }, [locations])
 
 
     return (
