@@ -88,18 +88,34 @@ export default function MapCanvas(props) {
      */
     function drawLocations(context, locationsArr) {
         const fontSizePixel = 32 * canvasPixel.y
+        let current = false
         locationsArr.forEach(location => {
+            const adjustedTopX = location.pos.topLeft.x * canvasPixel.x
+            const adjustedTopY = location.pos.topLeft.y * canvasPixel.y
+            const adjustedBottomX = location.pos.bottomRight.x * canvasPixel.x
+            const adjustedBottomY = location.pos.bottomRight.y * canvasPixel.y
+            if (adjustedTopX < playerPosition.x && adjustedBottomX > playerPosition.x && adjustedTopY < playerPosition.y && adjustedBottomY > playerPosition.y) {
+                current = true
+                if (!location.isDiscovered) {
+                    location.isDiscovered = true
+                }
+            } else {
+                current = false
+            }
             if (location.isDiscovered) {
-                const width = location.pos.bottomRight.x * canvasPixel.x - location.pos.topLeft.x * canvasPixel.x
-                const height = location.pos.bottomRight.y * canvasPixel.y - location.pos.topLeft.y * canvasPixel.y
-                context.rect(Math.round(location.pos.topLeft.x * canvasPixel.x), Math.round(location.pos.topLeft.y * canvasPixel.y), Math.round(width), Math.round(height))
+                const width = adjustedBottomX - adjustedTopX
+                const height = adjustedBottomY - adjustedTopY
+                context.rect(Math.round(adjustedTopX), Math.round(adjustedTopY), Math.round(width), Math.round(height))
+                // if (current) {
+                //     context.fillStyle = `rgba(255,255,255,1)`
+                //     context.font = `${fontSizePixel}px serif`
+                //     context.fillText(locationName, width * 0.6 / 2, (height + fontSizePixel) / 2)
+                // }
             }
         })
-        context.fillStyle = `rgba(100,100,100,0.5)`
+        context.fillStyle = `rgba(242,226,145,0.33)`
         context.fill()
-        // context.fillStyle = `rgba(255,255,255,1)`
-        // context.font = `${fontSizePixel}px serif`
-        // context.fillText(locationName, width * 0.6 / 2, (height + fontSizePixel) / 2)
+
     }
 
 
@@ -456,7 +472,7 @@ export default function MapCanvas(props) {
                 name: location.name,
                 properName: properName(location.name),
                 id: i + 1,
-                isDiscovered: true,
+                isDiscovered: false,
                 pos: areas[i] ? areas[i] : {
                     topLeft: {
                         x: 0,
