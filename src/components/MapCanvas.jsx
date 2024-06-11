@@ -155,6 +155,15 @@ export default function MapCanvas(props) {
         return true
     }
 
+    /**
+     * "victory-road" -> "Victory Road"
+     * @param {String} name fucked name (with hyphens)
+     * @returns {String} unfucked name (without hyphens, UppperCase first letters)
+     */
+    function properName(name) {
+        return name.split("-").map(word => [word[0].toUpperCase(), ...word.slice(1)].join("")).join(" ")
+    }
+
     // use effects
     useEffect(() => {
         const canvas = canvasRef.current
@@ -212,12 +221,12 @@ export default function MapCanvas(props) {
             setLocations(jsonData.results);
         };
         fetchData();
-        // setPlayerState(prevState => prevState)
     }, []);
 
-    useEffect(() => {
-        console.log(locations)
-    }, [locations])
+    // useEffect(() => {
+    //     const temp = locations[12]
+    //     console.log(properName(temp.name))
+    // }, [locations])
 
 
     return (
