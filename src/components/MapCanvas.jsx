@@ -218,15 +218,33 @@ export default function MapCanvas(props) {
         const fetchData = async () => {
             const response = await fetch('https://pokeapi.co/api/v2/location');
             const jsonData = await response.json();
-            setLocations(jsonData.results);
+
+            const locationsApiData = jsonData.results.map((location, i) => ({
+                name: location.name,
+                properName: properName(location.name),
+                id: i,
+                isDiscovered: true,
+                pos: {
+                    topLeft: {
+                        x: 0,
+                        y: 0
+                    },
+                    bottomRight: {
+                        x: 100,
+                        y: 100
+                    }
+                },
+                url: location.url
+            }))
+
+            setLocations(locationsApiData);
         };
         fetchData();
     }, []);
 
-    // useEffect(() => {
-    //     const temp = locations[12]
-    //     console.log(properName(temp.name))
-    // }, [locations])
+    useEffect(() => {
+        console.log(locations)
+    }, [locations])
 
 
     return (
