@@ -2,8 +2,8 @@ import { useCallback, useEffect, useState } from "react"
 import { TextBox } from "./TextBox"
 
 export function Modal(props) {
-
-    const [img, setImg] = useState()
+ 
+    const [img, setImg] = useState(null)
     const [pokemon, setPokemon] = useState(null)
     const [textRendered, setTextRendered] = useState(false)
 
@@ -21,7 +21,7 @@ export function Modal(props) {
                 const response = await fetch(props.pokemon.pokemon.url)
                 const jsonData = await response.json()
 
-                setImg(jsonData.sprites.other["dream_world"]["front_default"] ? jsonData.sprites.other["dream_world"]["front_default"] : 
+                setImg(jsonData.sprites.other["dream_world"]["front_default"] ? jsonData.sprites.other["dream_world"]["front_default"] :
                     jsonData.sprites["front_default"]
                 )
                 setPokemon(jsonData)
@@ -37,14 +37,14 @@ export function Modal(props) {
         } else {
             console.log("img deleted")
         }
-    }, [img])    
+    }, [img])
 
     const avoid = useCallback(() => {
-        props.setEncounter({ ...props.encounter, encount: false, pokemon: null })
-        setTextRendered(false)
+        props.setEncounter((prev) => ( { ...props.encounter, encount: false, pokemon: null }))
+        setTextRendered((prev) => false)
         setPokemon((prev) => null)
-        setImg()
-    })
+        setImg((prev) => null) 
+    })  
 
     return (
         <>
