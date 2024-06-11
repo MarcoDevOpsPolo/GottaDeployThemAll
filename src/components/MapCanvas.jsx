@@ -11,7 +11,6 @@ export default function MapCanvas(props) {
     const wallCanvasRef = useRef(null)
 
     // states
-    const [locations, setLocations] = useState(false)
 
     // imgs
     const backgroundImg = new Image()
@@ -488,16 +487,10 @@ export default function MapCanvas(props) {
                 },
                 url: location.url
             }))
-
-            setLocations(locationsApiData);
+            localLocations = locationsApiData
         };
         fetchData();
     }, []);
-
-    useEffect(() => {
-        localLocations = locations
-    }, [locations])
-
 
     return (
         <>
