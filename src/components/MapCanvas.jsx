@@ -203,20 +203,21 @@ export default function MapCanvas(props) {
             animationStep: 0
         }
         console.log(playerPosition)
-    }, [canvasPixel, playerState])
+    }, [canvasPixel, playerState, draw])
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         const response = await fetch('https://pokeapi.co/api/v2/location');
-    //         const jsonData = await response.json();
-    //         setLocations(jsonData.results);
-    //     };
-    //     fetchData();
-    // }, []);
+    useEffect(() => {
+        const fetchData = async () => {
+            const response = await fetch('https://pokeapi.co/api/v2/location');
+            const jsonData = await response.json();
+            setLocations(jsonData.results);
+        };
+        fetchData();
+        // setPlayerState(prevState => prevState)
+    }, []);
 
-    // useEffect(() => {
-    //     console.log(locations)
-    // }, [locations])
+    useEffect(() => {
+        console.log(locations)
+    }, [locations])
 
 
     return (
