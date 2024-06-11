@@ -13,10 +13,16 @@ export function Modal(props) {
     useEffect(() => {
         if (props.pokemon && pokemon === null) {         
             async function fetchPokemon() {
-                console.log("start to fetch new pokemon data")
                 const response = await fetch(props.pokemon.pokemon.url)
                 const jsonData = await response.json()
-                const textToRender = "What an exciting encounter! What will you do now?"
+                let textToRender = "What an exciting encounter! What will you do now?"
+                if (props.pokemon["version_details"][0]["max_chance"] >= 90) {
+                    textToRender = "Not your most exciting encounter in your life, but more than nothing."
+                }
+
+                if (props.pokemon["version_details"][0]["max_chance"] <= 10) {
+                    textToRender = "You can't believe your eyes! Probably you are in a dream.. or in a nightmare? Maybe you should run..?"
+                }
 
                 setText(textToRender)
                 setImg(jsonData.sprites.other["dream_world"]["front_default"] ? jsonData.sprites.other["dream_world"]["front_default"] :

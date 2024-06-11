@@ -36,7 +36,7 @@ function Location(props) {
             const chances = pokemons.map(poke => poke["version_details"][0]["max_chance"])
             const noEncounterChance = pokemons.reduce( (chance, poke) => poke["version_details"][0]["max_chance"] < chance ? poke["version_details"][0]["max_chance"] : chance, Math.max(...chances)) + 10
             //let randomNumber = Math.round(Math.random() * Math.max(...chances))
-            let randomNumber = Math.round(Math.random() * 10)
+            let randomNumber = Math.round(Math.random() * 90)
 
             console.log("pokemons: ", pokemons)
             console.log("chances:", chances)
