@@ -12,7 +12,7 @@ function Location(props) {
         async function fetchPokemons() {
             try {
                 // url from props.url
-                const response = await fetch("https://pokeapi.co/api/v2/location-area/2/")
+                const response = await fetch("https://pokeapi.co/api/v2/location-area/1/")
                 const jsonData = await response.json()
                 const pokemons = jsonData["pokemon_encounters"]
                 setPokemons(pokemons)
