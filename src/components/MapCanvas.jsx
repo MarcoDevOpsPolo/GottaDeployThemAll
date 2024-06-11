@@ -17,11 +17,7 @@ export default function MapCanvas(props) {
         speed: 6,
         facing: 0
     })
-    const [canvasPixel, setCanvasPixel] = useState({
-        x: 1,
-        y: 1,
-        isSet: false
-    })
+
     const [locations, setLocations] = useState(false)
 
     // imgs
@@ -36,6 +32,11 @@ export default function MapCanvas(props) {
     wallImg.src = backgroundWallsSrc
 
     // local variables
+    let canvasPixel = {
+        x: 1,
+        y: 1,
+        isSet: false
+    }
     let playerPosition = null
     let frameCount = 0
     let wallCanvas2dContext = null
@@ -239,11 +240,11 @@ export default function MapCanvas(props) {
         console.log(wallCanvas2dContext)
 
         if (!canvasPixel.isSet) {
-            setCanvasPixel({
+            canvasPixel = {
                 x: context.canvas.width / backgroundImg.width,
                 y: context.canvas.height / backgroundImg.height,
                 isSet: true
-            })
+            }
         }
 
         let animationFrameId
@@ -270,7 +271,7 @@ export default function MapCanvas(props) {
             animationStep: 0
         }
         console.log(playerPosition)
-    }, [canvasPixel, playerState, draw])
+    }, [playerState, draw])
 
     useEffect(() => {
         const fetchData = async () => {
