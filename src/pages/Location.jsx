@@ -13,7 +13,8 @@ function Location(props) {
         async function fetchPokemons() {
             try {
                 // url from props.url
-                const response = await fetch("https://pokeapi.co/api/v2/location-area/1/")
+                //"https://pokeapi.co/api/v2/location-area/1/"
+                const response = await fetch(props.url)
                 const jsonData = await response.json()
                 const pokemons = jsonData["pokemon_encounters"]
                 setPokemons(pokemons)
@@ -30,7 +31,7 @@ function Location(props) {
     }, [])
 
     useEffect(() => {
-        if (pokemons.length > 0 && encounter.encount === false) {
+        if (pokemons && pokemons.length > 0 && encounter.encount === false) {
             let pokemon;
             let options;
             const chances = pokemons.map(poke => poke["version_details"][0]["max_chance"])
@@ -74,8 +75,8 @@ function Location(props) {
 
     return (
         <>
-            {/* <GameBoard location={props.name} /> */}
-            <GameBoard location={"eterna-city"} setEncounter={setEncounter} encounter={ encounter} />
+            <GameBoard location={props.name} setEncounter={setEncounter} encounter={encounter} city={ props.name} />
+            {/* <GameBoard location={"eterna-city"} setEncounter={setEncounter} encounter={ encounter} /> */}
         </>
     )
 }

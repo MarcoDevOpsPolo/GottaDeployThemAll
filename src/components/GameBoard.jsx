@@ -24,7 +24,7 @@ export function GameBoard(props) {
         setBackgroundImg(name);
 
         const textRows = [
-            "Welcome to Eterna City!",
+            `Welcome to ${props.city.split("-").map(part => part[0].toUpperCase() + part.substring(1) + " ").join("")}!`,
             "You might encounter here a lot of exciting pokemons!",
             "Let's take a walk and try to find one...",
         ];
