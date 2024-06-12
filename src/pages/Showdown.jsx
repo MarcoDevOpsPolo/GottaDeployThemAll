@@ -2,56 +2,31 @@
 
 import { useState, useEffect } from "react";
 import PokemonData from "../components/PokemonData";
+import PokemonSelector from "./PokemonSelector";
 
 export default function Showdown(props){
-    const [opponentPokemon, setOpponentPokemon] = useState(null);
     const [stillFight, setStillFight] = useState(true);
     const [pokemonHps, setPokemonHps] = useState(null);
     let numberOfAttacks = 0;
     useEffect(() => {
-        async function fetchData(){
-            const response = await fetch(`https://pokeapi.co/api/v2/pokemon/bulbasaur/`)
-            const pokeData = await response.json()
-            setOpponentPokemon(pokeData);
-            console.log(pokeData);
-            setPokemonHps({yourHp: pokeData.stats[0].base_stat, opponentHp: pokeData.stats[0].base_stat});
-        }   
-        fetchData();
-    }, []);
-    // props.myPokemons.stats[0].base_stat, pokeData.stats[0].base_stat
-    // useEffect(() => {
-    //     setPokemonHps({
-    //         ...pokemonHps,
-    //         [property] : pokemonHps[property] - damage
-    //     })
-    //     console.log(pokemonHps.opponentHp);
-    //     console.log(pokemonHps.yourHp);
-    //     setMyTurn(myTurn => {
-    //         if (myTurn === true){
-    //             return false;
-    //         } else {
-    //             return true;
-    //         }
-    //     });
-    //     console.log(myTurn);
-    // }, [numberOfAttacks])
-    
-
-
-    
-
+        console.log("Mount showdown")
+        if (props.choosedPokemon) {
+            console.log("set pokeHPs")
+            setPokemonHps({yourHp: props.choosedPokemon.stats[0].base_stat, opponentHp: props.encounterPokemon.stats[0].base_stat});
+        }
+    }, [props.choosedPokemon]);
+   
     return (
         <> 
             <div className="showdown">
-                { opponentPokemon && pokemonHps ? (
-                    <>
-                        <PokemonData myPokemon={opponentPokemon} opponentPokemon={opponentPokemon} pokemonHps={pokemonHps}
+                { pokemonHps ? (
+                    <>  
+                        <PokemonData myPokemon={props.choosedPokemon} opponentPokemon={props.encounterPokemon} pokemonHps={pokemonHps}
                          setPokemonHps={setPokemonHps} numberOfAttacks={numberOfAttacks}/>
                     </>
-                ): <h1>"Loading...</h1>
-                }
+                ) : !props.choosedPokemon ? <PokemonSelector setCurrentPage={props.setCurrentPage} setMyPokemons={props.setMyPokemons} setChoosedPokemon={props.setChoosedPokemon} myPokemons={props.myPokemons} />
+            : <h1>Loading...</h1>}
             </div>
-                <button id="attack">Attack</button>
         </>
     );
 }

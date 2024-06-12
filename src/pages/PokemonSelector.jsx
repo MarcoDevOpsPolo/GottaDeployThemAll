@@ -2,14 +2,20 @@
 import { useState, useEffect} from "react"
 import AvaliablePokemons from "../components/AvailablePokemons"
 
-export default function PokemonSelector({setCurrentPage, setMyPokemons, myPokemons}){
+export default function PokemonSelector({setCurrentPage, setMyPokemons, myPokemons, setChoosedPokemon}){
     const userPokemon = ["bulbasaur", "charmander", "squirtle"]
-
     const [fetchedPokemons, setFetchedPokemons] = useState([])
+    
+
     useEffect(() =>{
         async function fetchPokemons() {
             try{
                 const fetchedData = await Promise.all(
+                    myPokemons.length > 0 ? myPokemons.map(async (pokemon) => {
+                        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon.name}`)
+                        const data = await response.json()
+                        return data
+                    }) :
                     userPokemon.map(async (pokemon) => {
                         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
                         const data = await response.json()
@@ -29,12 +35,19 @@ export default function PokemonSelector({setCurrentPage, setMyPokemons, myPokemo
         if(myPokemons.length > 0){
             console.log(myPokemons)
         } 
-    },[myPokemons])
+        if (fetchedPokemons) {
+            console.log(fetchedPokemons)
+        }
+    },[myPokemons, fetchedPokemons])
 
-    function handleChoose(e, id){
-        setMyPokemons([fetchedPokemons[id]])
-        setCurrentPage(3)
-        
+    function handleChoose(e, id) {
+        if (!(myPokemons.length > 0)) {
+            setMyPokemons((prev) => [...prev, fetchedPokemons[id]]);
+            setCurrentPage(3);
+        } else {
+            setChoosedPokemon(fetchedPokemons[id])
+            setCurrentPage(5)
+        }   
     }
 
     return(

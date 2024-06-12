@@ -16,6 +16,7 @@ function App() {
     facing: 0
   })
   const [encounterPokemon, setEncounterPokemon] = useState(null)
+  const [choosedPokemon, setChoosedPokemon] = useState(null);
 
   let showPage
   switch (currentPage) {
@@ -23,7 +24,7 @@ function App() {
       showPage = <LandingPage setCurrentPage={setCurrentPage} />
       break
     case 2:
-      showPage = <PokemonSelector setCurrentPage={setCurrentPage} setMyPokemons={setMyPokemons} myPokemons={myPokemons} />
+      showPage = <PokemonSelector setCurrentPage={setCurrentPage} setMyPokemons={setMyPokemons} myPokemons={myPokemons} setChoosedPokemon={ setChoosedPokemon} />
       break
     case 3:
       showPage = <MapCanvas setCurrentPage={setCurrentPage} setCurrentLocation={setCurrentLocation} playerState={playerState} setPlayerState={setPlayerState} />
@@ -32,13 +33,13 @@ function App() {
       showPage = <Location setCurrentPage={setCurrentPage} name={currentLocation.name} url={currentLocation.url} setEncounterPokemon={ setEncounterPokemon} />
       break
     case 5:
-      showPage = <Showdown setCurrentPage={setCurrentPage} encounterPokemon={encounterPokemon} myPokemons={myPokemons} setMyPokemons={ setMyPokemons} />
+      showPage = <Showdown setCurrentPage={setCurrentPage} encounterPokemon={encounterPokemon} myPokemons={myPokemons} setMyPokemons={setMyPokemons} choosedPokemon={ choosedPokemon} setChoosedPokemon={setChoosedPokemon} />
       break
   }
 
   return (
     <>
-      {showPage}      <Showdown/>
+      {showPage}  
     </>
   )
 }
