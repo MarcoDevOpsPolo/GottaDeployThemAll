@@ -74,7 +74,7 @@ export default function MapCanvas(props) {
         if (playerLoaded && (playerPosition !== null)) {
             drawPlayer(context, playerImg, playerPosition.facing, playerPosition.animationStep, playerPosition.x, playerPosition.y)
         }
-        if (localLocations) {
+        if (localLocations && canvasPixel.isSet) {
             drawLocations(context, localLocations)
         }
 
@@ -100,6 +100,7 @@ export default function MapCanvas(props) {
      * @param {Object} locationsArr pos: { topLeft: {x,y} bottomRight: {x,y}}
      */
     function drawLocations(context, locationsArr) {
+        context.beginPath()
         let currentCounter = 0
         const fontSizePixel = 32 * canvasPixel.y
         locationsArr.forEach(location => {
@@ -183,6 +184,7 @@ export default function MapCanvas(props) {
                     facing: playerPosition.facing
                 })
             }
+            props.setDiscoveredLocations(localLocations)
             props.setCurrentPage(4)
         }
     }
@@ -494,7 +496,11 @@ export default function MapCanvas(props) {
             }))
             localLocations = locationsApiData
         };
-        fetchData();
+        if (!props.discoveredLocations) {
+            fetchData();
+        } else {
+            localLocations = props.discoveredLocations
+        }
     }, []);
 
     return (
