@@ -14,11 +14,14 @@ export default function MapCanvas(props) {
 
     // imgs
     const backgroundImg = new Image()
+    let backgroundLoaded = false
     backgroundImg.src = backgroundSrc
-    // backgroundImg.src = backgroundWallsSrc
+    backgroundImg.onload = () => backgroundLoaded = true
 
     const playerImg = new Image()
+    let playerLoaded = false
     playerImg.src = playerSrc
+    playerImg.onload = () => playerLoaded = true
 
     const wallImg = new Image()
     wallImg.src = backgroundWallsSrc
@@ -47,13 +50,28 @@ export default function MapCanvas(props) {
         context.clearRect(0, 0, context.canvas.width, context.canvas.height)
         // context.drawImage(backgroundImg, 0, 0, context.canvas.width, context.canvas.height)
 
+        if (!canvasPixel.isSet && backgroundLoaded) {
+            canvasPixel = {
+                x: context.canvas.width / backgroundImg.width,
+                y: context.canvas.height / backgroundImg.height,
+                isSet: true
+            }
+            playerPosition = {
+                x: playerPosition.x * canvasPixel.x,
+                y: playerPosition.y * canvasPixel.y,
+                speed: playerPosition.speed,
+                facing: playerPosition.facing,
+                animationStep: 0
+            }
+        }
+
         if (!wallsSet && wallLoaded) {
             wallCanvas2dContext.clearRect(0, 0, wallCanvas2dContext.canvas.width, wallCanvas2dContext.canvas.height)
             wallCanvas2dContext.drawImage(wallImg, 0, 0, wallCanvas2dContext.canvas.width, wallCanvas2dContext.canvas.height)
             wallsSet = true
         }
 
-        if (playerPosition !== null) {
+        if (playerLoaded && (playerPosition !== null)) {
             drawPlayer(context, playerImg, playerPosition.facing, playerPosition.animationStep, playerPosition.x, playerPosition.y)
         }
         if (localLocations) {
@@ -73,7 +91,7 @@ export default function MapCanvas(props) {
     function drawPlayer(context, player, facing, animationStep, posx, posy) {
         const scaledPlayerWidth = (player.width / 4) * canvasPixel.x
         const scaledPlayerHeight = (player.height / 4) * 1.4 * canvasPixel.y
-        context.drawImage(player, Math.round((animationStep % 4) * player.width / 4), Math.round(facing * player.height / 4), Math.round(player.width / 4), Math.round(player.height / 4), Math.round(posx - (scaledPlayerWidth / 2)), Math.round(posy - (scaledPlayerHeight / 2)), Math.round(scaledPlayerWidth), Math.round(scaledPlayerHeight))
+        context.drawImage(player, Math.round((animationStep % 4) * player.width / 4), Math.round(facing * player.height / 4), Math.round(player.width / 4), Math.round(player.height / 4), Math.round(posx - (scaledPlayerWidth / 2)), Math.round(posy - (scaledPlayerHeight * 0.9)), Math.round(scaledPlayerWidth), Math.round(scaledPlayerHeight))
     }
 
     /**
@@ -152,10 +170,6 @@ export default function MapCanvas(props) {
                 }
             }
         }
-        if (e.key === "Enter") {
-            console.log(currentLocation)
-        }
-
         if (e.key === "Enter" && currentLocation) {
             props.setCurrentLocation({
                 name: currentLocation.name,
@@ -229,23 +243,6 @@ export default function MapCanvas(props) {
         wallCanvas2dContext = wallCanvas.getContext('2d', { alpha: false })
         wallCanvas2dContext.canvas.width = window.innerWidth * 0.987
         wallCanvas2dContext.canvas.height = window.innerHeight * 0.98
-
-        // console.log(wallCanvas2dContext)
-
-        if (!canvasPixel.isSet) {
-            canvasPixel = {
-                x: context.canvas.width / backgroundImg.width,
-                y: context.canvas.height / backgroundImg.height,
-                isSet: true
-            }
-            playerPosition = {
-                x: playerPosition.x * canvasPixel.x,
-                y: playerPosition.y * canvasPixel.y,
-                speed: playerPosition.speed,
-                facing: playerPosition.facing,
-                animationStep: 0
-            }
-        }
 
         let animationFrameId
 
