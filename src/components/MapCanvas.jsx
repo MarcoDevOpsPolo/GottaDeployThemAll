@@ -91,7 +91,7 @@ export default function MapCanvas(props) {
     function drawPlayer(context, player, facing, animationStep, posx, posy) {
         const scaledPlayerWidth = (player.width / 4) * canvasPixel.x
         const scaledPlayerHeight = (player.height / 4) * 1.4 * canvasPixel.y
-        context.drawImage(player, Math.round((animationStep % 4) * player.width / 4), Math.round(facing * player.height / 4), Math.round(player.width / 4), Math.round(player.height / 4), Math.round(posx - (scaledPlayerWidth / 2)), Math.round(posy - (scaledPlayerHeight / 2)), Math.round(scaledPlayerWidth), Math.round(scaledPlayerHeight))
+        context.drawImage(player, Math.round((animationStep % 4) * player.width / 4), Math.round(facing * player.height / 4), Math.round(player.width / 4), Math.round(player.height / 4), Math.round(posx - (scaledPlayerWidth / 2)), Math.round(posy - (scaledPlayerHeight * 0.9)), Math.round(scaledPlayerWidth), Math.round(scaledPlayerHeight))
     }
 
     /**

@@ -10,7 +10,7 @@ function App() {
   const [currentLocation, setCurrentLocation] = useState(null)
   const [playerState, setPlayerState] = useState({
     x: 537,
-    y: 455,
+    y: 460,
     speed: 6,
     facing: 0
   })
