@@ -1,0 +1,69 @@
+#gameBoard {
+    width: 72rem;
+    height: 42rem;
+    border: 1rem solid black;
+    background-image: var(--img);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+#gameBoard > .textBox {
+    width: 100%;
+    height: auto;
+    background-color: rgba(0, 0, 0, 0.611);
+    line-height: normal;
+    
+}
+
+.textBox > p {
+    margin: 0;
+    font-size: 1.5rem;
+    flex-grow: 1;
+}
+
+.modal {
+    width: 90%;
+    height: 30%;
+    flex-grow: 2;
+    background-color: rgba(0, 0, 0, 0.611);
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+}
+
+.modal > h1 > span {
+    font-style: italic;
+}
+
+.modal > img {
+    width: 15rem;
+    height: 15rem;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    justify-content: center;
+}
+
+.buttons > button {
+    margin: 0.2rem;
+    padding: 0.3rem;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0);
+    color: white;
+    border-radius: 10%;
+}
+
+.buttons > button:hover {
+    font-size: 1.5rem;
+}
