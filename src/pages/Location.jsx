@@ -40,8 +40,7 @@ function Location(props) {
             let options;
             const chances = pokemons.map(poke => poke["version_details"][0]["max_chance"])
             const noEncounterChance = pokemons.reduce( (chance, poke) => poke["version_details"][0]["max_chance"] < chance ? poke["version_details"][0]["max_chance"] : chance, Math.max(...chances)) + 10
-            //let randomNumber = Math.round(Math.random() * Math.max(...chances))
-            let randomNumber = Math.round(Math.random() * 90)
+            let randomNumber = Math.round(Math.random() * Math.max(...chances))
 
             console.log("pokemons: ", pokemons)
             console.log("chances:", chances)
@@ -79,7 +78,7 @@ function Location(props) {
 
     return (
         <>
-            <GameBoard location={props.name} setEncounter={setEncounter} encounter={encounter} city={ props.name} />
+            <GameBoard location={props.name} setEncounter={setEncounter} encounter={encounter} city={props.name} setCurrentPage={ props.setCurrentPage} />
             {/* <GameBoard location={"eterna-city"} setEncounter={setEncounter} encounter={ encounter} /> */}
         </>
     )

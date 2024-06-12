@@ -53,15 +53,15 @@ export function Modal(props) {
                     <img src={img}></img>
                     {text && <TextBox text={text} onComplete={handleComplete}/>}
                     {textRendered && <div className="buttons">
-                        <button>Gotta catch'em now!</button>
+                        <button onClick={ (e) => props.setCurrentPage(5)}>Gotta catch'em now!</button>
                         <button onClick={(e) => { avoid(e) }}>Walk forward and avoid facing with this pokemon</button>
-                        <button>Leave the location</button></div>}
+                        <button onClick={ (e) => props.setCurrentPage(3)}>Leave the location</button></div>}
                 </>}
             </>
                 : <>
                     {text && <TextBox text={ text} onComplete={handleComplete} tag="h1"/>}
                     {textRendered && <div className="buttons">
-                        <button>Leave this boring location</button>
+                        <button onClick={ (e) => props.setCurrentPage(3)}>Leave this boring location</button>
                         <button onClick={ (e) => avoid(e)}>Walk forward, I heard something over there...</button>
                     </div>}
                 </>
