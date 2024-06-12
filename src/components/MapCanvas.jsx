@@ -3,12 +3,14 @@ import React, { useRef, useEffect, useState } from 'react'
 import backgroundSrc from './../assets/maps/map3.png'
 import backgroundWallsSrc from './../assets/maps/map3_walls.png'
 import playerSrc from './../assets/player/ash2.webp'
+import './MapInfo.css'
 
 export default function MapCanvas(props) {
 
     // refs
     const canvasRef = useRef(null)
     const wallCanvasRef = useRef(null)
+    const locNameDiv = useRef(null)
 
     // states
 
@@ -40,6 +42,7 @@ export default function MapCanvas(props) {
     let localLocations = false
     let wallsSet = false
     let currentLocation = false
+    let currNameDivIsSet = false    // false = empty, true = text
 
 
     // local functions
@@ -111,6 +114,11 @@ export default function MapCanvas(props) {
             if (adjustedTopX < playerPosition.x && adjustedBottomX > playerPosition.x && adjustedTopY < playerPosition.y && adjustedBottomY > playerPosition.y) {
                 currentLocation = location
                 currentCounter++
+                if (!currNameDivIsSet) {
+                    locNameDiv.current.innerHTML = currentLocation.properName
+                    locNameDiv.current.classList.remove("hidden")
+                    currNameDivIsSet = true
+                }
                 if (!location.isDiscovered) {
                     location.isDiscovered = true
                 }
@@ -130,6 +138,11 @@ export default function MapCanvas(props) {
         context.fill()
         if (currentCounter === 0) {
             currentLocation = false
+            if (currNameDivIsSet) {
+                locNameDiv.current.innerHTML = ""
+                locNameDiv.current.classList.add("hidden")
+                currNameDivIsSet = false
+            }
         }
     }
 
@@ -505,6 +518,7 @@ export default function MapCanvas(props) {
 
     return (
         <>
+            <div ref={locNameDiv} className='map-info hidden'></div>
             <canvas ref={canvasRef} className='canvas-main'></canvas>
             <canvas ref={wallCanvasRef} className='hidden'></canvas>
         </>
