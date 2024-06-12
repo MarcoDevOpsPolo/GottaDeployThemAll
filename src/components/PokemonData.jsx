@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import "./../pages/Location.css"
 
-export default function PokemonData({ myPokemon, opponentPokemon, pokemonHps, setPokemonHps, numberOfAttacks, setCurrentPage, setMyPokemons, setChoosedPokemon }){
+export default function PokemonData({ myPokemon, opponentPokemon, pokemonHps, setPokemonHps, numberOfAttacks, setCurrentPage, setMyPokemons, setChoosedPokemon, counter, setCounter, stillFight, setStillFight }){
     const [myTurn, setMyTurn] = useState(true);
     //const [attacker, setAttacker] = useState(null)
     //const [defender, setDefender] = useState(null)
     const [catched, setCatched] = useState(false)
-
     const attacker = myPokemon
     const defender = opponentPokemon
-
+    
     // useEffect(() => {
     //     //Mount, choose pokemon
     //     console.log("Welcome to PokemonData.jsx!")
@@ -30,13 +29,12 @@ export default function PokemonData({ myPokemon, opponentPokemon, pokemonHps, se
               numberOfAttacks++;
               console.log(numberOfAttacks);
               handleAttack(attacker, defender, myTurn);
-            
             return () => clearTimeout(fight);
-          }, 500);
+          }, 1000);
         }
 
-        if (attacker && defender && (pokemonHps.yourHp > 0 || pokemonHps.opponentHp > 0)) {
-            
+        if (pokemonHps.yourHp <= 0 || pokemonHps.opponentHp <= 0) {
+            setStillFight(false)
         }
     }, [pokemonHps])
 
@@ -47,6 +45,8 @@ export default function PokemonData({ myPokemon, opponentPokemon, pokemonHps, se
     // }, [numberOfAttacks])
 
     function handleAttack(attacker, defender, myTurn){
+        setCounter(counter++)
+        console.log(counter)
         const Z = 217 + Math.round(Math.random() *39);
         console.log(Z);
         let property;
@@ -85,7 +85,7 @@ export default function PokemonData({ myPokemon, opponentPokemon, pokemonHps, se
             <div className="showdownFighters">
                 <div>
                     <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${`back/${myPokemon.id}`}.gif`} 
-                    alt="Your Pokemon" className="yourPok"/>
+                    alt="Your Pokemon" className={myTurn && counter>0 && stillFight ? "yourPok" :  ""}/>
                     <ul>
                         <li>HP: {pokemonHps.yourHp.toFixed(1)}</li>
                         <li>Attack: {myPokemon.stats[1].base_stat}</li>
@@ -94,7 +94,7 @@ export default function PokemonData({ myPokemon, opponentPokemon, pokemonHps, se
                 </div>
                 <div>
                     <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${`${opponentPokemon.id}`}.gif`} 
-                    alt= "Opponent Pokemon" className= "opponentPok"/>
+                    alt= "Opponent Pokemon" className={!myTurn && stillFight ? "opponentPok" : ""}/>
                     <ul>
                         <li>HP: {pokemonHps.opponentHp.toFixed(1)}</li>
                         <li>Attack: {opponentPokemon.stats[1].base_stat}</li>

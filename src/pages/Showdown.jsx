@@ -5,7 +5,8 @@ import PokemonData from "../components/PokemonData";
 import PokemonSelector from "./PokemonSelector";
 
 export default function Showdown(props){
-    const [stillFight, setStillFight] = useState(true);
+    const [counter, setCounter] = useState(0)
+    const [stillFight, setStillFight] = useState(true)
     const [pokemonHps, setPokemonHps] = useState(null);
     let numberOfAttacks = 0;
     useEffect(() => {
@@ -22,7 +23,8 @@ export default function Showdown(props){
             <div className="showdown">  
                     <PokemonData myPokemon={props.choosedPokemon} opponentPokemon={props.encounterPokemon} pokemonHps={pokemonHps}
                         setPokemonHps={setPokemonHps} numberOfAttacks={numberOfAttacks} setCurrentPage={props.setCurrentPage} setMyPokemons={props.setMyPokemons}
-                        setChoosedPokemon={props.setChoosedPokemon } />
+                        setChoosedPokemon={props.setChoosedPokemon } counter = {counter} setCounter = {setCounter} stillFight = {stillFight}
+                        setStillFight = {setStillFight} />
             </div>
         ) : !props.choosedPokemon ? <PokemonSelector setCurrentPage={props.setCurrentPage} setMyPokemons={props.setMyPokemons} setChoosedPokemon={props.setChoosedPokemon} myPokemons={props.myPokemons} />
                 :

@@ -130,9 +130,36 @@ body {
     height: 10%;
 }
 
+.yourPok{
+    animation-name: ourHit;
+    animation-duration: 1000ms;
+    /*animation-delay: 1000ms; */
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    transition: transform ease;
+}
+
+@keyframes ourHit{
+    from{transform: translateX(0px)}
+    to{transform: translateX(300px)}
+}
+
+.opponentPok{
+    animation-name: opponentHit;
+    animation-duration: 1000ms;
+    /*animation-delay: 2000ms; */
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    transition: transform ease;
+}
+
+@keyframes opponentHit{
+    from{transform: translateX(0px)}
+    to{transform: translateX(-300px)}
+}
+
 .showdownFighters > div > img {
     width: 12rem;
-
 }
 
 .showdown > .showdownFighters {
