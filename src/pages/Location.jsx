@@ -12,12 +12,16 @@ function Location(props) {
         //Mount
         async function fetchPokemons() {
             try {
-                // url from props.url
-                //"https://pokeapi.co/api/v2/location-area/1/"
-                const response = await fetch(props.url)
+                // First fetch the are URL
+                const responseURL = await fetch(props.url)
+                const jsonDataURL = await responseURL.json()
+
+                // Now fetch the pokemons
+                const response = await fetch(jsonDataURL.areas[0].url)
                 const jsonData = await response.json()
                 const pokemons = jsonData["pokemon_encounters"]
                 setPokemons(pokemons)
+                console.log(pokemons)
             } catch (err) {
                 console.log("error from fetchPokemons: ", err)
             }
