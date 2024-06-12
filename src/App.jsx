@@ -15,6 +15,7 @@ function App() {
     speed: 6,
     facing: 0
   })
+  const [discoveredLocations, setDiscoveredLocations] = useState(false)
   const [encounterPokemon, setEncounterPokemon] = useState(null)
 
   let showPage
@@ -26,13 +27,13 @@ function App() {
       showPage = <PokemonSelector setCurrentPage={setCurrentPage} setMyPokemons={setMyPokemons} myPokemons={myPokemons} />
       break
     case 3:
-      showPage = <MapCanvas setCurrentPage={setCurrentPage} setCurrentLocation={setCurrentLocation} playerState={playerState} setPlayerState={setPlayerState} />
+      showPage = <MapCanvas setCurrentPage={setCurrentPage} setCurrentLocation={setCurrentLocation} playerState={playerState} setPlayerState={setPlayerState} discoveredLocations={discoveredLocations} setDiscoveredLocations={setDiscoveredLocations} />
       break
     case 4:
-      showPage = <Location setCurrentPage={setCurrentPage} name={currentLocation.name} url={currentLocation.url} setEncounterPokemon={ setEncounterPokemon} />
+      showPage = <Location setCurrentPage={setCurrentPage} name={currentLocation.name} url={currentLocation.url} setEncounterPokemon={setEncounterPokemon} />
       break
     case 5:
-      showPage = <Showdown setCurrentPage={setCurrentPage} encounterPokemon={encounterPokemon} myPokemons={myPokemons} setMyPokemons={ setMyPokemons} />
+      showPage = <Showdown setCurrentPage={setCurrentPage} encounterPokemon={encounterPokemon} myPokemons={myPokemons} setMyPokemons={setMyPokemons} />
       break
   }
 
