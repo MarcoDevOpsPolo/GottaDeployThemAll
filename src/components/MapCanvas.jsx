@@ -18,7 +18,9 @@ export default function MapCanvas(props) {
     // backgroundImg.src = backgroundWallsSrc
 
     const playerImg = new Image()
+    let playerLoaded = false
     playerImg.src = playerSrc
+    playerImg.onload = () => playerLoaded = true
 
     const wallImg = new Image()
     wallImg.src = backgroundWallsSrc
@@ -31,7 +33,10 @@ export default function MapCanvas(props) {
         y: 1,
         isSet: false
     }
+    console.log(props.playerState)
     let playerPosition = props.playerState
+    console.log(playerPosition)
+    console.log(props.playerState)
     let frameCount = 0
     let wallCanvas2dContext = null
     let localLocations = false
@@ -53,7 +58,9 @@ export default function MapCanvas(props) {
             wallsSet = true
         }
 
-        if (playerPosition !== null) {
+        // console.log(playerLoaded)
+        console.log(playerPosition)
+        if (playerLoaded && (playerPosition !== null)) {
             drawPlayer(context, playerImg, playerPosition.facing, playerPosition.animationStep, playerPosition.x, playerPosition.y)
         }
         if (localLocations) {
@@ -238,6 +245,8 @@ export default function MapCanvas(props) {
                 y: context.canvas.height / backgroundImg.height,
                 isSet: true
             }
+            console.log("canvasX", canvasPixel.x)
+            console.log("playerX", playerPosition.x)
             playerPosition = {
                 x: playerPosition.x * canvasPixel.x,
                 y: playerPosition.y * canvasPixel.y,
@@ -245,6 +254,8 @@ export default function MapCanvas(props) {
                 facing: playerPosition.facing,
                 animationStep: 0
             }
+            console.log("canvasX", canvasPixel.x)
+            console.log("playerX", playerPosition.x)
         }
 
         let animationFrameId
