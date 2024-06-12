@@ -175,6 +175,14 @@ export default function MapCanvas(props) {
                 name: currentLocation.name,
                 url: currentLocation.url
             })
+            if (canvasPixel.isSet) {
+                props.setPlayerState({
+                    x: parseInt(playerPosition.x / canvasPixel.x),
+                    y: parseInt(playerPosition.y / canvasPixel.y),
+                    speed: playerPosition.speed,
+                    facing: playerPosition.facing
+                })
+            }
             props.setCurrentPage(4)
         }
     }
