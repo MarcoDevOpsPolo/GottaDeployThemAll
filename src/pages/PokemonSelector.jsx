@@ -31,14 +31,14 @@ export default function PokemonSelector({setCurrentPage, setMyPokemons, myPokemo
         fetchPokemons()
     }, []);
 
-    useEffect(() =>{
-        if(myPokemons.length > 0){
-            console.log(myPokemons)
-        } 
-        if (fetchedPokemons) {
-            console.log(fetchedPokemons)
-        }
-    },[myPokemons, fetchedPokemons])
+    // useEffect(() =>{
+    //     if(myPokemons.length > 0){
+    //         console.log(myPokemons)
+    //     } 
+    //     if (fetchedPokemons) {
+    //         console.log(fetchedPokemons)
+    //     }
+    // },[myPokemons, fetchedPokemons])
 
     function handleChoose(e, id) {
         if (!(myPokemons.length > 0)) {

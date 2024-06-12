@@ -1,20 +1,25 @@
 import { useEffect, useState } from "react";
+import "./../pages/Location.css"
 
-export default function PokemonData({ myPokemon, opponentPokemon, pokemonHps, setPokemonHps, numberOfAttacks }){
+export default function PokemonData({ myPokemon, opponentPokemon, pokemonHps, setPokemonHps, numberOfAttacks, setCurrentPage, setMyPokemons, setChoosedPokemon }){
     const [myTurn, setMyTurn] = useState(true);
-    const [attacker, setAttacker] = useState(null)
-    const [defender, setDefender] = useState(null)
+    //const [attacker, setAttacker] = useState(null)
+    //const [defender, setDefender] = useState(null)
+    const [catched, setCatched] = useState(false)
 
-    useEffect(() => {
-        //Mount, choose pokemon
-        console.log("Welcome to PokemonData.jsx!")
+    const attacker = myPokemon
+    const defender = opponentPokemon
+
+    // useEffect(() => {
+    //     //Mount, choose pokemon
+    //     console.log("Welcome to PokemonData.jsx!")
         
-        setAttacker(myPokemon)
-        setDefender(opponentPokemon);
+    //     setAttacker(myPokemon)
+    //     setDefender(opponentPokemon);
 
-        //unmount
-        return() => {console.log("Leaving PokemonData.jsx")}
-    }, [])
+    //     //unmount
+    //     return() => {console.log("Leaving PokemonData.jsx")}
+    // }, [])
    
     useEffect(() => {
         console.log(attacker)
@@ -29,13 +34,17 @@ export default function PokemonData({ myPokemon, opponentPokemon, pokemonHps, se
             return () => clearTimeout(fight);
           }, 500);
         }
-    }, [pokemonHps, attacker, defender])
 
-    useEffect(() => {
-        if (numberOfAttacks) {
-            console.log(numberOfAttacks);
+        if (attacker && defender && (pokemonHps.yourHp > 0 || pokemonHps.opponentHp > 0)) {
+            
         }
-    }, [numberOfAttacks])
+    }, [pokemonHps])
+
+    // useEffect(() => {
+    //     if (numberOfAttacks) {
+    //         console.log(numberOfAttacks);
+    //     }
+    // }, [numberOfAttacks])
 
     function handleAttack(attacker, defender, myTurn){
         const Z = 217 + Math.round(Math.random() *39);
@@ -73,24 +82,50 @@ export default function PokemonData({ myPokemon, opponentPokemon, pokemonHps, se
     
     return(
         <>
-            <div>
-                <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${`back/${myPokemon.id}`}.gif`} 
-                alt="Your Pokemon" className="yourPok"/>
-                <ul>
-                    <li>HP: {pokemonHps.yourHp.toFixed(1)}</li>
-                    <li>Attack: {myPokemon.stats[1].base_stat}</li>
-                    <li>Defense: {myPokemon.stats[2].base_stat}</li>
-                </ul>
+            <div className="showdownFighters">
+                <div>
+                    <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${`back/${myPokemon.id}`}.gif`} 
+                    alt="Your Pokemon" className="yourPok"/>
+                    <ul>
+                        <li>HP: {pokemonHps.yourHp.toFixed(1)}</li>
+                        <li>Attack: {myPokemon.stats[1].base_stat}</li>
+                        <li>Defense: {myPokemon.stats[2].base_stat}</li>
+                    </ul>
+                </div>
+                <div>
+                    <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${`${opponentPokemon.id}`}.gif`} 
+                    alt= "Opponent Pokemon" className= "opponentPok"/>
+                    <ul>
+                        <li>HP: {pokemonHps.opponentHp.toFixed(1)}</li>
+                        <li>Attack: {opponentPokemon.stats[1].base_stat}</li>
+                        <li>Defense: {opponentPokemon.stats[2].base_stat}</li>
+                    </ul>
+                </div>
             </div>
-            <div>
-                <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${`${opponentPokemon.id}`}.gif`} 
-                alt= "Opponent Pokemon" className= "opponentPok"/>
-                <ul>
-                    <li>HP: {pokemonHps.opponentHp.toFixed(1)}</li>
-                    <li>Attack: {opponentPokemon.stats[1].base_stat}</li>
-                    <li>Defense: {opponentPokemon.stats[2].base_stat}</li>
-                </ul>
+            {pokemonHps.yourHp <= 0 && <div className="showdownResult"><h1 >Noooo! {attacker.name} has gone! You loose!</h1>
+                <div className="buttons">
+                    <button onClick={(e) => {
+                        setChoosedPokemon(null)
+                        setCurrentPage(3)
+                    }}>Leave</button>
+                </div>
+            </div>}
+            {pokemonHps.opponentHp <= 0 && <div className="showdownResult"><h1 >Yes! {defender.name} has defeated! You can catch'em now!</h1>
+            <div className="buttons">
+                    <button onClick={(e) => {
+                        setCatched(true)
+                    }}>Catch!</button>
+                    <button onClick={(e) => {
+                        setChoosedPokemon(null)
+                        setCurrentPage(3)
+                    }}>Leave</button>
             </div>
+            </div>}
+            {catched && <div><h1>{defender.name} is yours! Congratulation!</h1><button onClick={(e) => {
+                setMyPokemons((prev) => [...prev, defender])
+                setChoosedPokemon(null)
+                setCurrentPage(3)
+            }}>Leave</button></div>}
         </>
     );
 

@@ -18,15 +18,15 @@ export default function Showdown(props){
    
     return (
         <> 
-            <div className="showdown">
-                { pokemonHps ? (
-                    <>  
-                        <PokemonData myPokemon={props.choosedPokemon} opponentPokemon={props.encounterPokemon} pokemonHps={pokemonHps}
-                         setPokemonHps={setPokemonHps} numberOfAttacks={numberOfAttacks}/>
-                    </>
-                ) : !props.choosedPokemon ? <PokemonSelector setCurrentPage={props.setCurrentPage} setMyPokemons={props.setMyPokemons} setChoosedPokemon={props.setChoosedPokemon} myPokemons={props.myPokemons} />
-            : <h1>Loading...</h1>}
+        { pokemonHps ? (
+            <div className="showdown">  
+                    <PokemonData myPokemon={props.choosedPokemon} opponentPokemon={props.encounterPokemon} pokemonHps={pokemonHps}
+                        setPokemonHps={setPokemonHps} numberOfAttacks={numberOfAttacks} setCurrentPage={props.setCurrentPage} setMyPokemons={props.setMyPokemons}
+                        setChoosedPokemon={props.setChoosedPokemon } />
             </div>
+        ) : !props.choosedPokemon ? <PokemonSelector setCurrentPage={props.setCurrentPage} setMyPokemons={props.setMyPokemons} setChoosedPokemon={props.setChoosedPokemon} myPokemons={props.myPokemons} />
+                :
+                <h1>Loading...</h1>}
         </>
     );
 }
