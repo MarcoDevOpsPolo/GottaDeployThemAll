@@ -14,8 +14,9 @@ export default function MapCanvas(props) {
 
     // imgs
     const backgroundImg = new Image()
+    let backgroundLoaded = false
     backgroundImg.src = backgroundSrc
-    // backgroundImg.src = backgroundWallsSrc
+    backgroundImg.onload = () => backgroundLoaded = true
 
     const playerImg = new Image()
     let playerLoaded = false
@@ -51,6 +52,21 @@ export default function MapCanvas(props) {
     const draw = (context) => {
         context.clearRect(0, 0, context.canvas.width, context.canvas.height)
         // context.drawImage(backgroundImg, 0, 0, context.canvas.width, context.canvas.height)
+
+        if (!canvasPixel.isSet && backgroundLoaded) {
+            canvasPixel = {
+                x: context.canvas.width / backgroundImg.width,
+                y: context.canvas.height / backgroundImg.height,
+                isSet: true
+            }
+            playerPosition = {
+                x: playerPosition.x * canvasPixel.x,
+                y: playerPosition.y * canvasPixel.y,
+                speed: playerPosition.speed,
+                facing: playerPosition.facing,
+                animationStep: 0
+            }
+        }
 
         if (!wallsSet && wallLoaded) {
             wallCanvas2dContext.clearRect(0, 0, wallCanvas2dContext.canvas.width, wallCanvas2dContext.canvas.height)
@@ -238,25 +254,6 @@ export default function MapCanvas(props) {
         wallCanvas2dContext.canvas.height = window.innerHeight * 0.98
 
         // console.log(wallCanvas2dContext)
-
-        if (!canvasPixel.isSet) {
-            canvasPixel = {
-                x: context.canvas.width / backgroundImg.width,
-                y: context.canvas.height / backgroundImg.height,
-                isSet: true
-            }
-            console.log("canvasX", canvasPixel.x)
-            console.log("playerX", playerPosition.x)
-            playerPosition = {
-                x: playerPosition.x * canvasPixel.x,
-                y: playerPosition.y * canvasPixel.y,
-                speed: playerPosition.speed,
-                facing: playerPosition.facing,
-                animationStep: 0
-            }
-            console.log("canvasX", canvasPixel.x)
-            console.log("playerX", playerPosition.x)
-        }
 
         let animationFrameId
 
