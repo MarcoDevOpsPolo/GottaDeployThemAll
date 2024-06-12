@@ -48,7 +48,7 @@ export function GameBoard(props) {
                 ))}
             </div>  
             { (texts.length > 0 && currentBox === texts.length) && <div className="modal">
-                <Modal pokemon={props.encounter.pokemon} setEncounter={props.setEncounter} encounter={props.encounter} setCurrentPage={ props.setCurrentPage} />
+                <Modal pokemon={props.encounter.pokemon} setEncounter={props.setEncounter} encounter={props.encounter} setCurrentPage={props.setCurrentPage} setEncounterPokemon={ props.setEncounterPokemon} />
             </div>}
         </div>
     );

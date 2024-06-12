@@ -78,7 +78,7 @@ function Location(props) {
 
     return (
         <>
-            <GameBoard location={props.name} setEncounter={setEncounter} encounter={encounter} city={props.name} setCurrentPage={ props.setCurrentPage} />
+            <GameBoard location={props.name} setEncounter={setEncounter} encounter={encounter} city={props.name} setCurrentPage={props.setCurrentPage} setEncounterPokemon={ props.setEncounterPokemon} />
             {/* <GameBoard location={"eterna-city"} setEncounter={setEncounter} encounter={ encounter} /> */}
         </>
     )

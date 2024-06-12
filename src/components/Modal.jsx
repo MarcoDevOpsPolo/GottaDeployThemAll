@@ -29,6 +29,7 @@ export function Modal(props) {
                     jsonData.sprites["front_default"]
                 )
                 setPokemon(jsonData)
+                console.log(jsonData)
             }
             fetchPokemon()
         }
@@ -53,7 +54,10 @@ export function Modal(props) {
                     <img src={img}></img>
                     {text && <TextBox text={text} onComplete={handleComplete}/>}
                     {textRendered && <div className="buttons">
-                        <button onClick={ (e) => props.setCurrentPage(5)}>Gotta catch'em now!</button>
+                        <button onClick={(e) => {
+                            props.setEncounterPokemon(pokemon)
+                            props.setCurrentPage(5)
+                        }}>Gotta catch'em now!</button>
                         <button onClick={(e) => { avoid(e) }}>Walk forward and avoid facing with this pokemon</button>
                         <button onClick={ (e) => props.setCurrentPage(3)}>Leave the location</button></div>}
                 </>}
