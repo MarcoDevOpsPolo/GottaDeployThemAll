@@ -11,18 +11,6 @@ export default function MapCanvas(props) {
     const wallCanvasRef = useRef(null)
 
     // states
-    const [playerState, setPlayerState] = useState({
-        x: 537,
-        y: 455,
-        speed: 6,
-        facing: 0
-    })
-    const [canvasPixel, setCanvasPixel] = useState({
-        x: 1,
-        y: 1,
-        isSet: false
-    })
-    const [locations, setLocations] = useState(false)
 
     // imgs
     const backgroundImg = new Image()
@@ -34,9 +22,16 @@ export default function MapCanvas(props) {
 
     const wallImg = new Image()
     wallImg.src = backgroundWallsSrc
+    let wallLoaded = false
+    wallImg.onload = () => wallLoaded = true
 
     // local variables
-    let playerPosition = null
+    let canvasPixel = {
+        x: 1,
+        y: 1,
+        isSet: false
+    }
+    let playerPosition = props.playerState
     let frameCount = 0
     let wallCanvas2dContext = null
     let localLocations = false
@@ -52,7 +47,7 @@ export default function MapCanvas(props) {
         context.clearRect(0, 0, context.canvas.width, context.canvas.height)
         // context.drawImage(backgroundImg, 0, 0, context.canvas.width, context.canvas.height)
 
-        if (!wallsSet) {
+        if (!wallsSet && wallLoaded) {
             wallCanvas2dContext.clearRect(0, 0, wallCanvas2dContext.canvas.width, wallCanvas2dContext.canvas.height)
             wallCanvas2dContext.drawImage(wallImg, 0, 0, wallCanvas2dContext.canvas.width, wallCanvas2dContext.canvas.height)
             wallsSet = true
@@ -63,7 +58,6 @@ export default function MapCanvas(props) {
         }
         if (localLocations) {
             drawLocations(context, localLocations)
-            // console.log(localLocations)
         }
 
     }
@@ -132,30 +126,30 @@ export default function MapCanvas(props) {
             if (e.key === "ArrowDown") {
                 playerPosition.facing = 0
                 newY += playerPosition.speed * canvasPixel.y
-                // if (canYouGetThere(newX, newY, wallCanvas2dContext)) {
-                playerPosition.y = newY
-                // }
+                if (canYouGetThere(newX, newY, wallCanvas2dContext)) {
+                    playerPosition.y = newY
+                }
             }
             if (e.key === "ArrowLeft") {
                 playerPosition.facing = 1
                 newX -= playerPosition.speed * canvasPixel.x
-                // if (canYouGetThere(newX, newY, wallCanvas2dContext)) {
-                playerPosition.x = newX
-                // }
+                if (canYouGetThere(newX, newY, wallCanvas2dContext)) {
+                    playerPosition.x = newX
+                }
             }
             if (e.key === "ArrowRight") {
                 playerPosition.facing = 2
                 newX += playerPosition.speed * canvasPixel.x
-                // if (canYouGetThere(newX, newY, wallCanvas2dContext)) {
-                playerPosition.x = newX
-                // }
+                if (canYouGetThere(newX, newY, wallCanvas2dContext)) {
+                    playerPosition.x = newX
+                }
             }
             if (e.key === "ArrowUp") {
                 playerPosition.facing = 3
                 newY -= playerPosition.speed * canvasPixel.y
-                // if (canYouGetThere(newX, newY, wallCanvas2dContext)) {
-                playerPosition.y = newY
-                // }
+                if (canYouGetThere(newX, newY, wallCanvas2dContext)) {
+                    playerPosition.y = newY
+                }
             }
         }
         if (e.key === "Enter") {
@@ -236,14 +230,21 @@ export default function MapCanvas(props) {
         wallCanvas2dContext.canvas.width = window.innerWidth * 0.987
         wallCanvas2dContext.canvas.height = window.innerHeight * 0.98
 
-        console.log(wallCanvas2dContext)
+        // console.log(wallCanvas2dContext)
 
         if (!canvasPixel.isSet) {
-            setCanvasPixel({
+            canvasPixel = {
                 x: context.canvas.width / backgroundImg.width,
                 y: context.canvas.height / backgroundImg.height,
                 isSet: true
-            })
+            }
+            playerPosition = {
+                x: playerPosition.x * canvasPixel.x,
+                y: playerPosition.y * canvasPixel.y,
+                speed: playerPosition.speed,
+                facing: playerPosition.facing,
+                animationStep: 0
+            }
         }
 
         let animationFrameId
@@ -261,16 +262,6 @@ export default function MapCanvas(props) {
 
     }, [draw])
 
-    useEffect(() => {
-        playerPosition = {
-            x: playerState.x * canvasPixel.x,
-            y: playerState.y * canvasPixel.y,
-            speed: playerState.speed,
-            facing: playerState.facing,
-            animationStep: 0
-        }
-        console.log(playerPosition)
-    }, [canvasPixel, playerState, draw])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -496,16 +487,10 @@ export default function MapCanvas(props) {
                 },
                 url: location.url
             }))
-
-            setLocations(locationsApiData);
+            localLocations = locationsApiData
         };
         fetchData();
     }, []);
-
-    useEffect(() => {
-        localLocations = locations
-    }, [locations])
-
 
     return (
         <>
