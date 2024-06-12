@@ -120,12 +120,12 @@ export default function PokemonData({ myPokemon, opponentPokemon, pokemonHps, se
                         setCurrentPage(3)
                     }}>Leave</button>
             </div>
-            </div>}
-            {catched && <div><h1>{defender.name} is yours! Congratulation!</h1><button onClick={(e) => {
+            {catched && <><h1>{defender.name} is yours! Congratulation!</h1><div className="buttons"><button onClick={(e) => {
                 setMyPokemons((prev) => [...prev, defender])
                 setChoosedPokemon(null)
                 setCurrentPage(3)
-            }}>Leave</button></div>}
+            }}>Leave</button></div></>}
+            </div>}
         </>
     );
 
