@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from "react"
 import { TextBox } from "./TextBox"
+import upperCaseFirstLetter from "./stringManipulation"
 
 export function Modal(props) {
- 
+
     const [img, setImg] = useState(null)
     const [pokemon, setPokemon] = useState(null)
     const [textRendered, setTextRendered] = useState(false)
@@ -11,7 +12,7 @@ export function Modal(props) {
     const handleComplete = useCallback(() => setTextRendered(true), [])
 
     useEffect(() => {
-        if (props.pokemon && pokemon === null) {         
+        if (props.pokemon && pokemon === null) {
             async function fetchPokemon() {
                 const response = await fetch(props.pokemon.pokemon.url)
                 const jsonData = await response.json()
@@ -41,32 +42,32 @@ export function Modal(props) {
     const avoid = useCallback(() => {
         setTextRendered((prev) => false)
         setPokemon((prev) => null)
-        setImg((prev) => null) 
+        setImg((prev) => null)
         setText((prev) => null)
-        props.setEncounter((prev) => ( { ...props.encounter, encount: false, pokemon: null }))
-    })  
+        props.setEncounter((prev) => ({ ...props.encounter, encount: false, pokemon: null }))
+    })
 
     return (
         <>
             {props.pokemon ? <>
-                <h1>Whoa! A <span>{props.pokemon.pokemon.name}!</span></h1>
+                <h1>Whoa! A <span>{upperCaseFirstLetter(props.pokemon.pokemon.name)}!</span></h1>
                 {img && <>
                     <img src={img}></img>
-                    {text && <TextBox text={text} onComplete={handleComplete}/>}
+                    {text && <TextBox text={text} onComplete={handleComplete} />}
                     {textRendered && <div className="buttons">
                         <button onClick={(e) => {
                             props.setEncounterPokemon(pokemon)
                             props.setCurrentPage(5)
                         }}>Gotta catch'em now!</button>
                         <button onClick={(e) => { avoid(e) }}>Walk forward and avoid facing with this pokemon</button>
-                        <button onClick={ (e) => props.setCurrentPage(3)}>Leave the location</button></div>}
+                        <button onClick={(e) => props.setCurrentPage(3)}>Leave the location</button></div>}
                 </>}
             </>
                 : <>
-                    {text && <TextBox text={ text} onComplete={handleComplete} tag="h1"/>}
+                    {text && <TextBox text={text} onComplete={handleComplete} tag="h1" />}
                     {textRendered && <div className="buttons">
-                        <button onClick={ (e) => props.setCurrentPage(3)}>Leave this boring location</button>
-                        <button onClick={ (e) => avoid(e)}>Walk forward, I heard something over there...</button>
+                        <button onClick={(e) => props.setCurrentPage(3)}>Leave this boring location</button>
+                        <button onClick={(e) => avoid(e)}>Walk forward, I heard something over there...</button>
                     </div>}
                 </>
             }

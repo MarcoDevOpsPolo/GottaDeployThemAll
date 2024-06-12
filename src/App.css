@@ -18,8 +18,8 @@ body {
     justify-content: center;
     align-items: center;
     background-image: url("/image.png");
-    background-position: center; 
-    background-repeat: no-repeat; 
+    background-position: center;
+    background-repeat: no-repeat;
     background-size: cover;
 }
 
@@ -60,6 +60,7 @@ body {
 }
 
 .one-pokemon {
+    font-family: "Oswald", sans-serif;
     display: flex;
     height: 16rem;
     flex-direction: column;
@@ -109,7 +110,7 @@ body {
 
 
 
-.showdown{
+.showdown {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -117,7 +118,7 @@ body {
     gap: 1rem;
     width: 100%;
     height: 10%;
-   
+
 }
 
 .showdownFighters {
@@ -130,39 +131,58 @@ body {
     height: 10%;
 }
 
-.yourPok{
+.yourPok {
     animation-name: ourHit;
     animation-duration: 1000ms;
     /*animation-delay: 1000ms; */
     animation-timing-function: linear;
     animation-iteration-count: infinite;
     transition: transform ease;
+    z-index: 3;
 }
 
-@keyframes ourHit{
-    from{transform: translateX(0px)}
-    to{transform: translateX(300px)}
+@keyframes ourHit {
+    from {
+        transform: translateX(0px)
+    }
+
+    to {
+        transform: translateX(33vw)
+    }
 }
 
-.opponentPok{
+.opponentPok {
     animation-name: opponentHit;
     animation-duration: 1000ms;
     /*animation-delay: 2000ms; */
     animation-timing-function: linear;
     animation-iteration-count: infinite;
     transition: transform ease;
+    z-index: 1;
 }
 
-@keyframes opponentHit{
-    from{transform: translateX(0px)}
-    to{transform: translateX(-300px)}
+@keyframes opponentHit {
+    from {
+        transform: translateX(0px)
+    }
+
+    to {
+        transform: translateX(-33vw)
+    }
 }
 
-.showdownFighters > div > img {
-    width: 12rem;
+.showdownFighters>div>img {
+    width: 10vw;
 }
 
-.showdown > .showdownFighters {
+.showdownFighters>div>ul {
+    list-style: none;
+    font-family: "Oswald", sans-serif;
+    /* font-weight: bold; */
+    font-size: 1.35rem;
+}
+
+.showdown>.showdownFighters {
     flex-grow: 2;
 }
 
@@ -178,6 +198,12 @@ button {
     align-items: center;
     justify-content: center;
     text-align: center;
-    background-color:rgba(0, 0, 0, 0.677);
+    background-color: rgba(0, 0, 0, 0.677);
     color: white;
+}
+
+.showdownResult>h1 {
+    font-family: "Oswald", sans-serif;
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
 }

@@ -1,32 +1,33 @@
 /* select starting pokemon*/
-import { useState, useEffect} from "react"
+import { useState, useEffect } from "react"
 import AvaliablePokemons from "../components/AvailablePokemons"
+import upperCaseFirstLetter from "../components/stringManipulation"
 
-export default function PokemonSelector({setCurrentPage, setMyPokemons, myPokemons, setChoosedPokemon}){
+export default function PokemonSelector({ setCurrentPage, setMyPokemons, myPokemons, setChoosedPokemon }) {
     const userPokemon = ["bulbasaur", "charmander", "squirtle"]
     const [fetchedPokemons, setFetchedPokemons] = useState([])
-    
 
-    useEffect(() =>{
+
+    useEffect(() => {
         async function fetchPokemons() {
-            try{
+            try {
                 const fetchedData = await Promise.all(
                     myPokemons.length > 0 ? myPokemons.map(async (pokemon) => {
                         const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon.name}`)
                         const data = await response.json()
                         return data
                     }) :
-                    userPokemon.map(async (pokemon) => {
-                        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
-                        const data = await response.json()
-                        return data
-                    })
+                        userPokemon.map(async (pokemon) => {
+                            const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
+                            const data = await response.json()
+                            return data
+                        })
                 );
                 setFetchedPokemons(fetchedData)
-            } catch(error){
+            } catch (error) {
                 console.error(error)
             }
-            
+
         }
         fetchPokemons()
     }, []);
@@ -47,18 +48,18 @@ export default function PokemonSelector({setCurrentPage, setMyPokemons, myPokemo
         } else {
             setChoosedPokemon(fetchedPokemons[id])
             setCurrentPage(5)
-        }   
+        }
     }
 
-    return(
+    return (
         <div className="pokemon-selector">
             <h1 className="choose-text"> Choose your pokemon </h1>
             <div className="show-pokemons">
-            {fetchedPokemons.map((pokemon,id) => (
-                <AvaliablePokemons name={pokemon.name} id={id} key={pokemon.name} gif={pokemon.sprites.other.showdown.front_default} onclick={handleChoose}/>))}
+                {fetchedPokemons.map((pokemon, id) => (
+                    <AvaliablePokemons name={upperCaseFirstLetter(pokemon.name)} id={id} key={pokemon.name} gif={pokemon.sprites.other.showdown.front_default} onclick={handleChoose} />))}
             </div>
         </div>
-        
+
     )
 }
 

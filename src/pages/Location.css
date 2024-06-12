@@ -14,15 +14,16 @@
     color: white;
 }
 
-#gameBoard > .textBox {
+#gameBoard>.textBox {
     width: 100%;
     height: auto;
     background-color: rgba(0, 0, 0, 0.611);
     line-height: normal;
-    
+
 }
 
-.textBox > p {
+.textBox>p {
+    font-family: "Oswald", sans-serif;
     margin: 0;
     font-size: 1.5rem;
     flex-grow: 1;
@@ -39,11 +40,19 @@
     align-items: center;
 }
 
-.modal > h1 > span {
+.modal>* {
+    font-family: "Oswald", sans-serif;
+}
+
+.modal>h1>span {
     font-style: italic;
 }
 
-.modal > img {
+.modal>p {
+    font-size: 1.2rem;
+}
+
+.modal>img {
     width: 15rem;
     height: 15rem;
 }
@@ -55,15 +64,16 @@
     justify-content: center;
 }
 
-.buttons > button {
+.buttons>button {
     margin: 0.2rem;
     padding: 0.3rem;
     cursor: pointer;
     background-color: rgba(255, 255, 255, 0);
     color: white;
     border-radius: 10%;
+    font-family: "Oswald", sans-serif;
 }
 
-.buttons > button:hover {
+.buttons>button:hover {
     font-size: 1.5rem;
 }
