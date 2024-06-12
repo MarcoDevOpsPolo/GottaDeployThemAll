@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
-export default function PokemonData({ pokemonIsYours }){
+export default function PokemonData({ myPokemon, opponentPokemon }){
     const [myTurn, setMyTurn] = useState(true);
-    const [pokemonHps, setPokemonHps] = useState(null);
+   
     useEffect(() => {
-        setPokemonHps({yourHp: pokemonObj.stats[0].base_stat, opponentHp: pokemonObj.stats[0].base_stat});
-        let attacker = opponentPokemon;
+        setPokemonHps({yourHp: myPokemon.stats[0].base_stat, opponentHp: opponentPokemon.stats[0].base_stat});
+        let attacker = myPokemon;
         let defender = opponentPokemon;
         console.log(opponentPokemon);
         let fight = setInterval(() => {
@@ -36,7 +36,7 @@ export default function PokemonData({ pokemonIsYours }){
         console.log(damage);
         setPokemonHps({
             ...pokemonHps,
-            [property] : pokemonHps.property - damage
+            [property] : pokemonHps[property] - damage
         })
         setMyTurn(myTurn => {
             if (myTurn === true){
@@ -50,15 +50,26 @@ export default function PokemonData({ pokemonIsYours }){
 
     
     return(
-        <div>
-            <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${pokemonIsYours ? `back/${pokemonObj.id}` : `${pokemonObj.id}`}.gif`} 
-            alt={pokemonIsYours ? "Your Pokemon" : "Opponent Pokemon"} className={pokemonIsYours ? "yourPok" : "opponentPok"}/>
-            <ul>
-                <li>HP: {pokemonObj.stats[0].base_stat}</li>
-                <li>Attack: {pokemonObj.stats[1].base_stat}</li>
-                <li>Defense: {pokemonObj.stats[2].base_stat}</li>
-            </ul>
-        </div>
+        <>
+            <div>
+                <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${`back/${myPokemon.id}`}.gif`} 
+                alt="Your Pokemon" className="yourPok"/>
+                <ul>
+                    <li>HP: {myPokemon.stats[0].base_stat}</li>
+                    <li>Attack: {myPokemon.stats[1].base_stat}</li>
+                    <li>Defense: {myPokemon.stats[2].base_stat}</li>
+                </ul>
+            </div>
+            <div>
+                <img src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/showdown/${`${opponentPokemon.id}`}.gif`} 
+                alt= "Opponent Pokemon" className= "opponentPok"/>
+                <ul>
+                    <li>HP: {opponentPokemon.stats[0].base_stat}</li>
+                    <li>Attack: {opponentPokemon.stats[1].base_stat}</li>
+                    <li>Defense: {opponentPokemon.stats[2].base_stat}</li>
+                </ul>
+            </div>
+        </>
     );
 
 }

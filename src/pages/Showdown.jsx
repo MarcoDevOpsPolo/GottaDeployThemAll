@@ -6,6 +6,7 @@ import PokemonData from "../components/PokemonData";
 export default function Showdown(props){
     const [opponentPokemon, setOpponentPokemon] = useState(null);
     const [stillFight, setStillFight] = useState(true);
+    const [pokemonHps, setPokemonHps] = useState(null);
     useEffect(() => {
         async function fetchData(){
             const response = await fetch(`https://pokeapi.co/api/v2/pokemon/bulbasaur/`)
@@ -15,7 +16,6 @@ export default function Showdown(props){
         }   
         fetchData();
     }, []);
-    console.log(pokemonHps);
     // props.myPokemons.stats[0].base_stat, pokeData.stats[0].base_stat
 
     
@@ -28,8 +28,7 @@ export default function Showdown(props){
             <div className="showdown">
                 { opponentPokemon ? (
                     <>
-                        <PokemonData pokemonObj={opponentPokemon}  pokemonIsYours={true} />
-                        <PokemonData pokemonObj={opponentPokemon}  pokemonIsYours={false} />
+                        <PokemonData myPokemon={opponentPokemon} opponentPokemon={opponentPokemon}  />
                     </>
                 ): <h1>"Loading...</h1>
                 }
