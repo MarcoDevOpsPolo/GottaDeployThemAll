@@ -8,5 +8,8 @@
   },
   "author": "MarcoDevOpsPolo",
   "license": "MIT",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "json-server": "^0.17.4"
+  }
 }
