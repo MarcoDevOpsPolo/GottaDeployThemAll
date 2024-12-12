@@ -20,3 +20,4 @@ CONTAINER_ID=$(docker run -d -p 8128:8128 poke-api )
 
 echo "id: $CONTAINER_ID"
 
+docker logs -f "$CONTAINER_ID" >> ./analysis/log.txt 2>&1 &
