@@ -8,6 +8,6 @@ RUN npm i
 
 COPY . .
 
-EXPOSE 3000
+EXPOSE 8128
 
-CMD ["npx", "json-server", "--host", "0.0.0.0", "--watch", "pokemon.json"]
+CMD ["npm", "start"]
