@@ -23,7 +23,7 @@ cd ..
 
 # Start docker compose
 
-docker-compose up -d
+docker-compose up --build -d
 
 docker-compose logs -f >> logs/log.txt 2>&1 &
 

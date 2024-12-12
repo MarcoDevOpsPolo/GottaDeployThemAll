@@ -12,6 +12,7 @@ services:
       - ./logs/log.txt:/app/logs/log.txt
     networks:
       - public-network
+    image: poke-api:latest
 
   analyser:
     build:
@@ -21,6 +22,7 @@ services:
     volumes:
       - ./logs:/logs
     network_mode: none
+    image: analyser:latest
 
 # You don't need this as bridge is the default driver
 networks:
