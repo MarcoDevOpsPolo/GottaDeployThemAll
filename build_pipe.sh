@@ -1,6 +1,17 @@
 #!//bash
 #Dont forget to run this script as a source! '. ./build_pipe.sh'
 
+# Create log folder
+
+if [ -d "logs" ]; then
+	  rm -rf logs
+fi
+
+mkdir logs
+
+touch logs/log.txt
+
+
 # Kill Poke Container
 
 if [[ -n "$POKE_CONTAINER_ID" ]] 
