@@ -1,5 +1,6 @@
-#!//bash
-#Dont forget to run this script as a source! '. ./build_pipe.sh'
+#!/bin/bash
+
+echo "gotta catch em all"
 
 # Create log folder
 
@@ -11,27 +12,6 @@ mkdir logs
 
 touch logs/log.txt
 
-
-# Kill Poke Container
-
-if [[ -n "$POKE_CONTAINER_ID" ]] 
-then
-    docker kill "$POKE_CONTAINER_ID"
-    docker rm "$POKE_CONTAINER_ID"
-fi
-
-echo "gotta catch em all"
-
-# Analyser container build
-
-cd analysis || { echo "Failed to enter 'analysis' directory"; exit 1; }
-
-docker rmi -f analyser
-
-docker build -t analyser
-
-cd ..
-
 # Frontend React Build
 
 cd frontend || { echo "Failed to enter 'frontend' directory"; exit 1; }
@@ -40,19 +20,12 @@ npm run build
 
 cd ..
 
-# Backend docker container creation
 
-cd backend || { echo "Failed to enter 'backend' directory"; exit 1; }
+# Start docker compose
 
-docker rmi -f poke-api
+docker-compose up -d
 
-docker build -t poke-api .
+docker-compose logs -f >> logs/log.txt 2>&1 &
 
-cd ..
+# here lies the tomb of approximately 20 deleted lines. Let this be a memoir on hard working o7
 
-POKE_CONTAINER_ID=$(docker run -d -p 8128:8128 poke-api )
-export POKE_CONTAINER_ID
-
-echo "id: $POKE_CONTAINER_ID"
-
-docker logs -f "$POKE_CONTAINER_ID" >> ./analysis/log.txt 2>&1 &
