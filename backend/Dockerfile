@@ -6,7 +6,7 @@ COPY package*.json .
 
 RUN npm i
 
-COPY server.js pokemon.json .
+COPY . .
 
 EXPOSE 3000
 
