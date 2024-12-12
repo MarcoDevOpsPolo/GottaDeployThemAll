@@ -1,4 +1,11 @@
-#!/bin/sh
+#!/bin/bash
+#Dont forget to run this script as a source! '. ./build_pipe.sh'
+
+if [[ -n "$CONTAINER_ID" ]] 
+then
+    docker kill "$CONTAINER_ID"
+    docker rm "$CONTAINER_ID"
+fi
 
 echo "gotta catch em all"
 
@@ -17,6 +24,7 @@ docker build -t poke-api .
 cd ..
 
 CONTAINER_ID=$(docker run -d -p 8128:8128 poke-api )
+export CONTAINER_ID
 
 echo "id: $CONTAINER_ID"
 
