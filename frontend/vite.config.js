@@ -8,6 +8,6 @@ export default defineConfig({
     port: 8128,
   },
   build: {
-    outDir: "dist", // Specify your desired output directory here
+    outDir: "../dist", // Specify your desired output directory here
   },
 });

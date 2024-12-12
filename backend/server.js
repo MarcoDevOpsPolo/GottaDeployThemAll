@@ -10,11 +10,11 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Serve static files from the React app
-app.use(express.static(join(__dirname, "../frontend/dist"))); // Assuming 'dist' is where your build files are located
+app.use(express.static(join(__dirname, "../dist"))); // Assuming 'dist' is where your build files are located
 
 // The "catchall" handler: for any request that doesn't match one above, send back index.html.
 app.get("*", (req, res) => {
-  res.sendFile(join(__dirname, "../frontend/dist", "index.html"));
+  res.sendFile(join(__dirname, "../dist", "index.html"));
 });
 
 // Start the server
