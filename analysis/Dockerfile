@@ -8,6 +8,4 @@ RUN npm i
 
 COPY . .
 
-EXPOSE 8128
-
-CMD ["npm", "run", "dev"]
+CMD ["npm", "start"]

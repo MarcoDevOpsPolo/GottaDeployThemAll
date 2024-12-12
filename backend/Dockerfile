@@ -6,8 +6,8 @@ COPY package*.json .
 
 RUN npm i
 
-COPY server.js pokemon.json .
+COPY . .
 
-EXPOSE 3000
+EXPOSE 8128
 
-CMD ["npx", "json-server", "--host", "0.0.0.0", "--watch", "pokemon.json"]
+CMD ["npm", "start"]
