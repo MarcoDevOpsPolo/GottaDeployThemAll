@@ -10,7 +10,7 @@ cd ..
 
 cd backend || { echo "Failed to enter 'backend' directory"; exit 1; }
 
-docker rmi poke-api
+docker rmi -f poke-api
 
 docker build -t poke-api .
 
