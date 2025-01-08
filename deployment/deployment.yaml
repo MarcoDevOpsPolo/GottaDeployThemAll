@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: gottafetchthemall
+  namespace: poke
   labels:
     app: poke-api
 spec:
@@ -17,6 +18,8 @@ spec:
       containers:
       - name: gottafetchthemall
         image: 794038210581.dkr.ecr.eu-west-2.amazonaws.com/marcopolo/gottafetchthemall:latest
-		imagePullPolicy: always
+        imagePullPolicy: Always
         ports:
         - containerPort: 8128
+      imagePullSecrets:
+      - name: docker-login
