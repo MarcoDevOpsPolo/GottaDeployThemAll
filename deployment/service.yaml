@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: my-app-service
+  name: gottafetchthemall-service
+  namespace: poke
 spec:
   selector:
-    app: my-app
+    app: gottafetchthemall
   ports:
   - protocol: TCP
     port: 80
-    targetPort: 80
-  type: LoadBalancer
+    targetPort: 8128
