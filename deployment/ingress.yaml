@@ -1,18 +1,19 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: my-app-ingress
+  name: gottafetchthemall-ingress
+  namespace: poke
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-  - host: my-app.example.com
+  - host: a74699ba050ff4d589ff0a4507afe82d-585196317.eu-west-2.elb.amazonaws.com
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: my-app-service
+            name: gottafetchthemall-service
             port:
               number: 80
