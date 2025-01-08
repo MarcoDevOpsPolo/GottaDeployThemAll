@@ -1,0 +1,12 @@
+.map-info {
+    position: fixed;
+    top: 9dvh;
+    left: 50dvw;
+    transform: translate(-50%, -50%);
+    background-color: #F2E291;
+    font-family: "Oswald", sans-serif;
+    font-size: 4rem;
+    text-align: center;
+    padding: 1rem;
+    color: #4A3229;
+}
