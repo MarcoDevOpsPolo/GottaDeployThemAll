@@ -5,6 +5,7 @@ metadata:
   namespace: poke
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/ingress.class: "nginx"
 spec:
   rules:
   - host: a74699ba050ff4d589ff0a4507afe82d-585196317.eu-west-2.elb.amazonaws.com
