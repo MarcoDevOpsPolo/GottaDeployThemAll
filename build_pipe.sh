@@ -21,11 +21,20 @@ npm run build
 cd ..
 
 
-# Start docker compose
+# Start docker gottafetchthemall
 
-docker-compose up --build -d
+cd backend
 
-docker-compose logs -f >> logs/log.txt 2>&1 &
+docker build -t gottafetchtemall .
 
+cd ..
+
+# Start docker analysis
+
+cd analysis
+
+docker build -t analyser .
+
+cd ..
 # here lies the tomb of approximately 20 deleted lines. Let this be a memoir on hard working o7
 
