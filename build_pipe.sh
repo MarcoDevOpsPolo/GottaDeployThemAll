@@ -1,4 +1,8 @@
 #!/bin/bash
+ecr=$1
+region=$2
+aws_acc_id=$3
+
 set -e
 
 echo "gotta catch em all"
@@ -26,7 +30,7 @@ cd ..
 
 cd backend
 
-docker build -t gottafetchtemall .
+docker build -t gottafetchthemall:latest .
 
 cd ..
 
@@ -39,6 +43,8 @@ docker build -t analyser .
 cd ..
 
 cd deployment
+
+. push_docker_image.sh $ecr $region $aws_acc_id
 
 . create_cluster.sh
 
@@ -61,7 +67,7 @@ loadBalancer.ingress[0].hostname}')
 
 . install_prom_graf.sh
 
-. port_forward.sh
+. port_forward.sh &
 
 
 echo "Poke-Api has been deployed successfully! Enjoy the game at $host"
