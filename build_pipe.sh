@@ -64,11 +64,15 @@ kubectl apply -f ingress.yaml
 
 host=$(kubectl get ingress gottafetchthemall-ingress -n poke -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
 
+echo poke-api will run at: $host
+
 . attach_host_to_ingress.sh $host
+
+kubectl apply -f ingress.yaml
 
 . install_prom_graf.sh
 
-. port_forward.sh &
+. -d port_forward.sh 
 
 
 echo "Poke-Api has been deployed successfully! Enjoy the game at $host"
