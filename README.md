@@ -50,5 +50,5 @@ Enjoy!
 Once you're done playing and don't want to pay too much for the running instances, delete your cluster and all associated resources using this command: 
 
 ```bash
-eksctl delete cluster --name poke-api --region <your-region>
+eksctl delete cluster --name poke-cluster --region <your-region>
 ```
