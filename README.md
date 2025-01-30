@@ -15,7 +15,7 @@ GottaDeployThemAll is
 
 ## Running the project
 
-1. Create a `docker-secrete.yaml` file in `deployment`
+1. Create a `docker-secret.yaml` file in `deployment`
 
 ```yaml
 apiVersion: v1
