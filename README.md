@@ -7,7 +7,7 @@ GottaDeployThemAll is
 ## Prerequisites
 
 - A working, valid **AWS account**
-- awscli
+- awscli installed
 - kubernetes
     - eksctl
 - docker
@@ -28,10 +28,19 @@ data:
 type: kubernetes.io/dockerconfigjson
 ```
 
-2. Run `build_pipe.sh`
+2. Copy the result of the encrypted docker config file to `.dockerconfigjson:`
 
 ```bash
-./build_pipe.sh
+cat ~/.docker/config.json | base64
 ```
 
-Creation takes a couple of minutes. 
+3. Run `build_pipe.sh` with the corresponding parameters.
+
+```bash
+./build_pipe.sh <ecr name> <aws region code> <aws account id>
+```
+
+Creation takes a couple of minutes. If everything progressed fine, your last message will be 
+> "Poke-Api has been deployed successfully! Enjoy the game at <hostname>"
+
+Enjoy!
