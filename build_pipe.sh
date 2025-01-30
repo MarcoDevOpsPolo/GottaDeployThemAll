@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 echo "gotta catch em all"
 
@@ -36,5 +37,31 @@ cd analysis
 docker build -t analyser .
 
 cd ..
-# here lies the tomb of approximately 20 deleted lines. Let this be a memoir on hard working o7
 
+cd deployment
+
+. create_cluster.sh
+
+kubectl apply -f poke-namespace.yaml
+kubectl apply -f monitoring-namespace.yaml
+kubectl apply -f docker-secret.yaml
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+
+. scale_up_nodes.sh
+
+kubectl apply -f ingress.yaml
+
+. add-nginx-helm.sh
+
+host=$(kubectl get ingress gottafetchthemall-ingress -n poke -o jsonpath='{.status.
+loadBalancer.ingress[0].hostname}')
+
+. attach_host_to_ingress.sh $host
+
+. install_prom_graf.sh
+
+. port_forward.sh
+
+
+echo "Poke-Api has been deployed successfully! Enjoy the game at $host"
