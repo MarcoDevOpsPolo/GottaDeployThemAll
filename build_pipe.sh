@@ -72,7 +72,7 @@ kubectl apply -f ingress.yaml
 
 . install_prom_graf.sh
 
-. -d port_forward.sh 
+. port_forward.sh &
 
 
 echo "Poke-Api has been deployed successfully! Enjoy the game at $host"
