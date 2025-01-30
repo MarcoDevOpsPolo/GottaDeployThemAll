@@ -44,3 +44,11 @@ Creation takes a couple of minutes. If everything progressed fine, your last mes
 > "Poke-Api has been deployed successfully! Enjoy the game at HOSTNAME"
 
 Enjoy!
+
+## Cleanup
+
+Once you feel enough of playing, and you don't want to pay too much for the running instances, delete your cluster and all the resources using this command: 
+
+```bash
+eksctl delete cluster --name poke-api --region <your-region>
+```
