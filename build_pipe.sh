@@ -64,9 +64,9 @@ kubectl apply -f ingress.yaml
 
 host=$(kubectl get ingress gottafetchthemall-ingress -n poke -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
 
-echo poke-api will run at: $host
+echo poke-api will run at: "$host"
 
-. attach_host_to_ingress.sh $host
+. attach_host_to_ingress.sh "$host"
 
 kubectl apply -f ingress.yaml
 
