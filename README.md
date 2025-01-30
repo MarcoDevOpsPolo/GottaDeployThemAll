@@ -41,6 +41,6 @@ cat ~/.docker/config.json | base64
 ```
 
 Creation takes a couple of minutes. If everything progressed fine, your last message will be 
-> "Poke-Api has been deployed successfully! Enjoy the game at <hostname>"
+> "Poke-Api has been deployed successfully! Enjoy the game at HOSTNAME"
 
 Enjoy!
