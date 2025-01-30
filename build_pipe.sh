@@ -62,8 +62,7 @@ kubectl apply -f ingress.yaml
 
 . add-nginx-helm.sh
 
-host=$(kubectl get ingress gottafetchthemall-ingress -n poke -o jsonpath='{.status.
-loadBalancer.ingress[0].hostname}')
+host=$(kubectl get ingress gottafetchthemall-ingress -n poke -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
 
 . attach_host_to_ingress.sh $host
 
