@@ -48,7 +48,7 @@ cd deployment
 
 . create_cluster.sh
 
-. attach_image_to_deployment.sh
+. attach_image_to_deployment.sh $region
 
 kubectl apply -f poke-namespace.yaml
 kubectl apply -f monitoring-namespace.yaml
