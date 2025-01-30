@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: gottafetchthemall
-        image: 794038210581.dkr.ecr.eu-west-2.amazonaws.com/marcopolo/gottafetchthemall:latest
+        image: poke-image
         imagePullPolicy: Always
         ports:
         - containerPort: 8128
